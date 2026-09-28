@@ -124,6 +124,49 @@ function qtopic(q){
  if(/union européenne|européen|maastricht|commission européenne/.test(x))return"eu";
  return"general";
 }
+function specialDistractors(q){
+ const x=q.q.toLowerCase();
+ const rules=[
+  [/allons enfants|marseillaise/,["Aux armes, citoyens !","Formez vos bataillons","Qu'un sang impur abreuve nos sillons"]],
+  [/quel droit politique|droit.*femmes.*1944/,["Le droit de grève","Le droit de propriété","La liberté de la presse"]],
+  [/quel est un devoir essentiel|devoir essentiel du citoyen/,["Choisir librement si les lois s'appliquent","Refuser de contribuer aux charges publiques","Ignorer une convocation officielle sans motif"]],
+  [/quelle aide.*avocat|faibles ressources.*avocat/,["La carte Vitale","Le tiers payant","La complémentaire santé"]],
+  [/qui était |qui etait /,["Un homme politique","Un peintre","Un scientifique"]],
+  [/qui a peint|quel peintre/,["Claude Monet","Eugène Delacroix","Auguste Renoir"]],
+  [/quel compositeur/,["Claude Debussy","Ludwig van Beethoven","Maurice Ravel"]],
+  [/quel philosophe/,["Voltaire","Jean-Jacques Rousseau","Montesquieu"]],
+  [/quel roi/,["Louis XIV","Louis XVI","Henri IV"]],
+  [/quel président|sous quel président/,["Charles de Gaulle","François Mitterrand","Jacques Chirac"]],
+  [/que représente le 14 juillet|fête nationale/,["La fin de la Première Guerre mondiale","La victoire de 1945","La création de l'Union européenne"]],
+  [/que commémore le 8 mai/,["L'armistice de 1918","La prise de la Bastille","La signature du traité de Maastricht"]],
+  [/que commémore le 11 novembre/,["La victoire de 1945","La prise de la Bastille","L'abolition de la peine de mort"]],
+  [/sur quel document officiel.*marianne/,["Sur la carte Vitale","Sur le permis de conduire","Sur un contrat de travail"]],
+  [/diplôme.*fin du collège|diplome.*fin du college/,["Le baccalauréat","Le CAP","Le diplôme universitaire de technologie"]],
+  [/textes.*relation de travail/,["Le Code civil uniquement","Le règlement municipal","Le traité de Maastricht"]],
+  [/dans quel musée.*joconde|grand musée.*paris/,["Le musée d'Orsay","Le Centre Pompidou","Le musée Rodin"]],
+  [/quel château.*louis xiv/,["Le château de Chambord","Le château de Fontainebleau","Le château de Chenonceau"]],
+  [/peintures préhistoriques|peintures prehistoriques/,["Le château de Versailles","Le Panthéon","L'Arc de Triomphe"]],
+  [/îlot rocheux.*normandie|ilot rocheux.*normandie/,["La cité de Carcassonne","Le château de Chambord","Le Panthéon"]],
+  [/fusées ariane|fusees ariane/,["Toulouse","Bordeaux","Marseille"]],
+  [/où travaille.*premier ministre|ou travaille.*premier ministre/,["Au palais de l'Élysée","Au palais du Luxembourg","À l'Assemblée nationale"]],
+  [/établissement suit.*école élémentaire|etablissement suit.*ecole elementaire/,["Le lycée","L'université","L'école maternelle"]],
+  [/où peut-on fumer|ou peut-on fumer/,["Dans une salle d'attente d'hôpital","Dans une classe d'école publique","Dans un train"]],
+  [/où peut-on.*devise|ou peut-on.*devise/,["Uniquement dans les églises","Sur les cartes bancaires","Sur les billets de banque uniquement"]],
+  [/siège.*banque centrale européenne|siege.*banque centrale europeenne/,["Bruxelles","Strasbourg","Luxembourg"]],
+  [/siège.*commission européenne|siege.*commission europeenne/,["Francfort","Strasbourg","Luxembourg"]],
+  [/parlement européen.*sessions|parlement europeen.*sessions/,["Bruxelles uniquement","Francfort","Luxembourg"]],
+  [/ville.*rois de france.*sacrés|ville.*rois de france.*sacres/,["Paris","Versailles","Orléans"]],
+  [/premier port français.*marchandises|premier port francais.*marchandises/,["Le Havre","Nantes-Saint-Nazaire","Dunkerque"]],
+  [/chef-lieu.*auvergne-rhône-alpes|chef-lieu.*auvergne-rhone-alpes/,["Grenoble","Clermont-Ferrand","Saint-Étienne"]],
+  [/chef-lieu.*bretagne/,["Brest","Nantes","Quimper"]],
+  [/chef-lieu.*provence-alpes-côte d'azur|chef-lieu.*provence-alpes-cote d'azur/,["Nice","Toulon","Avignon"]],
+  [/cathédrale parisienne.*2019|cathedrale parisienne.*2019/,["Le Sacré-Cœur","La Sainte-Chapelle","La basilique Saint-Denis"]],
+  [/grand.*port maritime/,["Lyon","Dijon","Clermont-Ferrand"]],
+  [/débarquement allié.*6 juin 1944|debarquement allie.*6 juin 1944/,["En Provence","En Bretagne","Dans le Pas-de-Calais"]]
+ ];
+ for(const [re,opts] of rules)if(re.test(x))return opts.filter(a=>a!==q.a).slice(0,3);
+ return null;
+}
 function isYesNo(q){
  const x=q.q.toLowerCase(),a=q.a.toLowerCase();
  return /^(oui|non)/.test(a)||/peut-|faut-|est-il|est-elle|doit-|doivent-|existe-t-il|a-t-il|ont-ils|est-ce|peut-on|faut-il/.test(x);
@@ -138,6 +181,7 @@ function sameTypePool(q){
  return [];
 }
 function plausibleDistractors(q,n=3){
+ const special=specialDistractors(q);if(special)return special.slice(0,n);
  if(isYesNo(q))return yesNoWrong(q).filter(a=>a!==q.a).slice(0,n);
  let vals=sameTypePool(q);
  if(vals.length>=n)return vals.slice(0,n);
