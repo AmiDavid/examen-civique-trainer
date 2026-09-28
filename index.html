@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1f3a">
 <title>Examen Civique — Naturalisation</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css">
 <style>
 :root{--navy:#0b1f3a;--blue:#245aa8;--red:#d9424d;--green:#1f7a59;--bg:#f5f1e9;--card:#fffdf9;--muted:#6b7280;--line:#e5ded2}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172033;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;padding-bottom:88px}button{font:inherit;cursor:pointer}
@@ -22,7 +25,7 @@ nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(700
 </style>
 </head>
 <body>
-<header><div class="ey">NATURALISATION • FRANCE</div><h1>Examen Civique</h1></header>
+<header><div class="head"><div><div class="ey">NATURALISATION • FRANCE</div><h1>Examen Civique</h1></div><div class="row"><button id="installBtn" class="btn ghost smallbtn">Installer</button><button id="exportBtn" class="btn ghost smallbtn">Exporter</button><label class="btn ghost smallbtn">Importer<input id="importInput" type="file" accept="application/json" hidden></label></div></div></header>
 <main id="app" class="wrap"></main>
 <nav>
 <button data-v="home" class="on">Aujourd’hui</button>
@@ -35,7 +38,12 @@ nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(700
 <script>
 const CAT={principes:"Principes & valeurs",institutions:"Institutions",droits:"Droits & devoirs",histoire:"Histoire, géographie & culture",vie:"Vie en France"};
 const ALL=[...window.CIVIQUE_KNOWLEDGE,...window.CIVIQUE_SITUATIONS];
-const stateDefault=()=>({attempts:{},sessions:[],view:"home",version:2});
+const OFFICIAL=window.CIVIQUE_KNOWLEDGE.filter(q=>q.source==="official");
+const VARIANTS=window.CIVIQUE_KNOWLEDGE.filter(q=>q.source==="variant");
+const SIMS=window.CIVIQUE_SITUATIONS;
+const srcLabel=q=>q.source==="official"?"Banque officielle":q.source==="variant"?"Variante":"Situation simulée";
+const srcClass=q=>q.source||"simulation";
+const stateDefault=()=>({attempts:{},sessions:[],view:"home",version:3,lastMockIds:[],bookmarks:{}});
 let st=JSON.parse(localStorage.getItem("civique-v2")||"null")||stateDefault(), quiz=null, clock=null;
 const app=document.getElementById("app");
 const save=()=>localStorage.setItem("civique-v2",JSON.stringify(st));
@@ -62,16 +70,18 @@ function optionsFor(q){
  return shuffle([q.a,...d.slice(0,3)]);
 }
 function mockSet(){
- const pick=(arr,n)=>shuffle(arr).slice(0,n);
- return shuffle([
-  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="principes"),5),
-  ...pick(window.CIVIQUE_SITUATIONS.filter(q=>q.c==="principes"),6),
-  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="institutions"),6),
-  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="droits"),5),
-  ...pick(window.CIVIQUE_SITUATIONS.filter(q=>q.c==="droits"),6),
-  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="histoire"),8),
-  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="vie"),4)
+ const avoid=st.lastMockIds||[];
+ const pick=(arr,n)=>{let fresh=shuffle(arr.filter(q=>!avoid.includes(q.id))).slice(0,n);if(fresh.length<n)fresh.push(...shuffle(arr.filter(q=>!fresh.some(x=>x.id===q.id))).slice(0,n-fresh.length));return fresh};
+ const list=shuffle([
+  ...pick(OFFICIAL.filter(q=>q.c==="principes"),5),
+  ...pick(SIMS.filter(q=>q.c==="principes"),6),
+  ...pick(OFFICIAL.filter(q=>q.c==="institutions"),6),
+  ...pick(OFFICIAL.filter(q=>q.c==="droits"),5),
+  ...pick(SIMS.filter(q=>q.c==="droits"),6),
+  ...pick(OFFICIAL.filter(q=>q.c==="histoire"),8),
+  ...pick(OFFICIAL.filter(q=>q.c==="vie"),4)
  ]);
+ st.lastMockIds=list.map(q=>q.id);save();return list;
 }
 function diagnosticSet(){
  return shuffle([
@@ -88,7 +98,7 @@ document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>setView(b.datas
 function home(){
  const o=overall(),due=dueItems().length,mocks=st.sessions.filter(x=>x.type==="mock");
  app.innerHTML=`
- <section class="hero"><div class="ey">PRÉPARATION PERSONNELLE</div><h2>Entraînement civique</h2><p>${window.CIVIQUE_KNOWLEDGE.length} questions de connaissance d'entraînement couvrant la liste officielle + variantes, ${window.CIVIQUE_SITUATIONS.length} situations simulées, examens blancs aléatoires et révision espacée.</p></section>
+ <section class="hero"><div class="ey">PRÉPARATION PERSONNELLE</div><h2>Entraînement civique</h2><p><b>${OFFICIAL.length}</b> cartes couvrant la banque officielle, <b>${VARIANTS.length}</b> variantes et <b>${SIMS.length}</b> situations simulées. Les examens blancs utilisent uniquement la banque officielle pour les 28 questions de connaissance.</p></section>
  <div class="notice" style="margin-top:14px"><b>Transparence :</b> le ministère publie les thèmes/questions de connaissance, mais pas les 4 choix de réponse ni les 12 situations réelles. Les QCM de cette application sont donc des entraînements reformulés ; les situations sont explicitement simulées.</div>
  <div class="grid two">
   <div class="card"><h3>Précision globale</h3><div class="big">${o.t?o.p+"%":"—"}</div><p>${o.t} réponses enregistrées</p></div>
@@ -98,7 +108,8 @@ function home(){
   <div class="card"><h3>Diagnostic</h3><p>25 questions, sans correction avant la fin.</p><button class="btn pri" id="diag">Commencer</button></div>
   <div class="card"><h3>Examen blanc</h3><p>40 questions · 45 min · 32/40 requis · tirage différent à chaque fois.</p><button class="btn pri" id="mock">Lancer</button></div>
  </div>
- <div class="card" style="margin-top:14px"><h3>Derniers examens</h3><p>${mocks.length?mocks.slice(-5).reverse().map(m=>m.score+"/40").join(" · "):"Aucun pour l'instant."}</p></div>`;
+ <div class="card" style="margin-top:14px"><h3>Derniers examens</h3><p>${mocks.length?mocks.slice(-5).reverse().map(m=>m.score+"/40").join(" · "):"Aucun pour l'instant."}</p></div>
+ <div class="card source-list" style="margin-top:14px"><h3>Sources officielles</h3><a target="_blank" rel="noopener" href="https://www.immigration.interieur.gouv.fr/documentation/guides-textes-et-brochures/questions-de-connaissance-pour-lexamen-civique-nationalite-francaise.html">Liste officielle des questions de connaissance</a><a target="_blank" rel="noopener" href="https://www.immigration.interieur.gouv.fr/devenir-francais/procedures-dacces-a-nationalite-francaise">Naturalisation — Ministère de l'Intérieur</a></div>`;
  document.getElementById("diag").onclick=()=>start("diagnostic",diagnosticSet());
  document.getElementById("mock").onclick=()=>start("mock",mockSet());
  if(due)document.getElementById("dueBtn").onclick=()=>start("practice",dueItems().slice(0,15));
@@ -119,10 +130,11 @@ function practice(){
  <div class="card"><h3>Révision intelligente</h3><p>Priorité aux erreurs et aux questions arrivées à échéance.</p><button id="smart" class="btn pri">Session intelligente</button></div>
  <div class="card"><h3>Situations civiques</h3><p>Questions pratiques simulant la partie non publiée de l'examen.</p><button id="situ" class="btn pri">12 situations</button></div>
  </div>
- <div class="grid">${Object.entries(CAT).map(([k,v])=>`<div class="card"><h3>${v}</h3><p>${ALL.filter(q=>q.c===k).length} cartes disponibles.</p><button class="btn sec" data-cat="${k}">10 questions</button></div>`).join("")}</div>`;
- document.getElementById("smart").onclick=()=>{let d=dueItems(),w=wrongItems();let p=[...new Map([...d,...w,...shuffle(ALL)].map(x=>[x.id,x])).values()].slice(0,15);start("practice",p)};
- document.getElementById("situ").onclick=()=>start("practice",shuffle(window.CIVIQUE_SITUATIONS).slice(0,12));
- document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>start("practice",shuffle(ALL.filter(q=>q.c===b.dataset.cat)).slice(0,10)));
+ <div class="grid">${Object.entries(CAT).map(([k,v])=>`<div class="card"><h3>${v}</h3><p>${OFFICIAL.filter(q=>q.c===k).length} banque officielle · ${VARIANTS.filter(q=>q.c===k).length} variantes · ${SIMS.filter(q=>q.c===k).length} situations.</p><div class="row"><button class="btn sec" data-cat="${k}">10 officielles</button><button class="btn ghost" data-mix="${k}">10 mixtes</button></div></div>`).join("")}</div>`;
+ document.getElementById("smart").onclick=()=>{let d=dueItems(),w=wrongItems();let p=[...new Map([...d,...w,...shuffle(OFFICIAL)].map(x=>[x.id,x])).values()].slice(0,15);start("practice",p)};
+ document.getElementById("situ").onclick=()=>start("practice",shuffle(SIMS).slice(0,12));
+ document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>start("practice",shuffle(OFFICIAL.filter(q=>q.c===b.dataset.cat)).slice(0,10)));
+ document.querySelectorAll("[data-mix]").forEach(b=>b.onclick=()=>start("practice",shuffle(ALL.filter(q=>q.c===b.dataset.mix)).slice(0,10)));
 }
 function errors(){
  const rows=wrongItems();
@@ -135,7 +147,7 @@ function progress(){
  const o=overall(),mocks=st.sessions.filter(x=>x.type==="mock");
  let rows=Object.keys(CAT).map(c=>{let r=0,w=0;ALL.filter(q=>q.c===c).forEach(q=>{let x=st.attempts[q.id];if(x){r+=x.right||0;w+=x.wrong||0}});return[c,r,w]});
  app.innerHTML=`<h2>Progrès</h2><div class="grid two">
- <div class="card"><h3>Réponses</h3><div class="big">${o.t}</div><p>${o.p}% correctes</p></div>
+ <div class="card"><h3>Réponses</h3><div class="big">${o.t}</div><p>${o.p}% correctes · ${Object.keys(st.attempts).length}/${ALL.length} cartes vues</p></div>
  <div class="card"><h3>Examens blancs</h3><div class="big">${mocks.length}</div><p>${mocks.filter(m=>m.score>=32).length} au-dessus du seuil</p></div>
  </div><div class="card" style="margin-top:14px"><div class="bars">${rows.map(([c,r,w])=>`<div><div class="stat"><span>${CAT[c]}</span><b>${r+w?pct(r,r+w)+"%":"—"}</b></div><div class="bar"><div style="width:${r+w?pct(r,r+w):0}%"></div></div></div>`).join("")}</div></div>
  <div class="card" style="margin-top:14px"><h3>Historique des examens</h3><p>${mocks.length?mocks.slice(-10).reverse().map(m=>new Date(m.date).toLocaleDateString("fr-FR")+" — "+m.score+"/40 "+(m.score>=32?"✓":"✗")).join("<br>"):"Aucun examen blanc."}</p></div>`;
@@ -149,13 +161,15 @@ function start(type,list){
 const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
 function renderQ(){
  const q=quiz.list[quiz.i], prev=quiz.ans[quiz.i], practiceMode=quiz.type==="practice";
- app.innerHTML=`<div class="row between"><button id="quit" class="btn sec">← Quitter</button><span class="timer" id="tm">${quiz.remain!==null?fmt(quiz.remain):quiz.type==="diagnostic"?"Diagnostic":"Entraînement"}</span></div>
+ app.innerHTML=`<div class="row between"><div class="row"><button id="quit" class="btn sec">← Pause</button><button id="bookmark" class="btn ghost smallbtn">${st.bookmarks[q.id]?"★":"☆"}</button></div><span class="timer" id="tm">${quiz.remain!==null?fmt(quiz.remain):quiz.type==="diagnostic"?"Diagnostic":"Entraînement"}</span></div>
  <div class="prog"><div style="width:${(quiz.i+1)/quiz.list.length*100}%"></div></div>
- <div class="card"><span class="tag">${CAT[q.c]}</span> <span class="tag ${q.kind==="situation"?"sim":""}">${q.kind==="situation"?"Situation simulée":"Connaissance"}</span><span class="tag" style="float:right">${quiz.i+1}/${quiz.list.length}</span>
- <div class="q">${q.q}</div><div class="opts">${q._opts.map((o,i)=>`<button class="opt ${prev?.sel===i?"sel":""}" data-i="${i}">${"ABCD"[i]}. ${o}</button>`).join("")}</div><div id="fb"></div><div class="row" id="acts"></div></div>`;
- document.getElementById("quit").onclick=()=>{if(confirm("Quitter cette session ?")){clearInterval(clock);quiz=null;setView("home")}};
+ <div class="card"><div class="row between"><div class="row"><span class="tag">${CAT[q.c]}</span><span class="tag ${srcClass(q)}">${srcLabel(q)}</span></div><span class="tag">${quiz.i+1}/${quiz.list.length}</span></div>
+ <div class="q">${q.q}</div><div class="opts">${q._opts.map((o,i)=>`<button class="opt ${prev?.sel===i?"sel":""}" data-i="${i}">${"ABCD"[i]}. ${o}</button>`).join("")}</div><div id="fb"></div><div class="row between" id="acts"></div></div>${quiz.type!=="practice"?`<div class="card" style="margin-top:12px"><div class="tiny">${quiz.ans.filter(Boolean).length}/${quiz.list.length} répondues</div><div class="palette">${quiz.list.map((x,i)=>`<button class="pal ${quiz.ans[i]?"answered":""} ${i===quiz.i?"current":""}" data-jump="${i}">${i+1}</button>`).join("")}</div></div>`:""}`;
+ document.getElementById("quit").onclick=()=>{clearInterval(clock);quiz=null;setView("home")};
+ document.getElementById("bookmark").onclick=()=>{st.bookmarks[q.id]=!st.bookmarks[q.id];save();renderQ()};
  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>choose(+b.dataset.i));
- if(prev&&practiceMode&&prev.reviewed)showFeedback(q,prev.sel); else if(prev&&!practiceMode)nextButton();
+ document.querySelectorAll("[data-jump]").forEach(b=>b.onclick=()=>{quiz.i=+b.dataset.jump;renderQ()});
+ if(prev&&practiceMode&&prev.reviewed)showFeedback(q,prev.sel); else nextButton();
 }
 function choose(i){
  const q=quiz.list[quiz.i];
@@ -165,28 +179,45 @@ function choose(i){
  else{document.querySelectorAll(".opt").forEach((b,j)=>b.classList.toggle("sel",j===i));nextButton()}
 }
 function showFeedback(q,i){
- const ok=q._opts[i]===q.a;
+ const chosen=q._opts[i],ok=chosen===q.a;
  document.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true;if(q._opts[j]===q.a)b.classList.add("good");if(j===i&&!ok)b.classList.add("bad")});
- document.getElementById("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct":"À revoir"}</b><br><b>Réponse :</b> ${q.a}<br>${q.n||"À retenir : "+q.a}<div class="row"><button class="btn ghost" id="why">Explain in English</button></div><div id="english"></div></div>`;
- document.getElementById("why").onclick=()=>{document.getElementById("english").innerHTML=`<div class="en"><b>English help:</b> The key fact to remember is: <i>${q.a}</i>. ${ok?"Your answer matched the expected rule/fact.":"Your answer did not match the expected rule/fact, so review the distinction in the French wording and the fact above."}</div>`};
+ const why=ok?(q.n||"À retenir : "+q.a):`Vous avez choisi « ${chosen} ». La réponse attendue est « ${q.a} ». ${q.n||"À retenir : "+q.a}`;
+ document.getElementById("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct ✓":"À revoir"}</b><div class="explain"><b>Pourquoi ?</b><br>${why}</div><details><summary>Explain in English</summary><div class="explain">${ok?"Your answer is correct. ":"Your answer differs from the expected one. "}Key fact: <b>${q.a}</b>. Pay close attention to words such as <i>doit</i> (must), <i>peut</i> (may/can), <i>interdit</i> (forbidden) and <i>obligatoire</i> (mandatory).</div></details><details><summary>Source / statut</summary><div class="explain">${srcLabel(q)}. ${q.source==="simulation"?"The real situational questions are not public; this is a simulation based on the official syllabus.":q.source==="variant"?"This is a reworded variant to test understanding.":"This card covers the official published knowledge bank."}</div></details></div>`;
  nextButton();
 }
 function nextButton(){
- const last=quiz.i===quiz.list.length-1;
- document.getElementById("acts").innerHTML=`<button id="next" class="btn pri full">${last?"Terminer":"Question suivante"}</button>`;
- document.getElementById("next").onclick=()=>last?finish():(quiz.i++,renderQ());
+ const last=quiz.i===quiz.list.length-1,prev=quiz.i>0;
+ document.getElementById("acts").innerHTML=`<div>${prev?'<button id="prev" class="btn ghost">← Précédente</button>':""}</div><div><button id="next" class="btn pri">${last?"Terminer":"Suivante →"}</button></div>`;
+ if(prev)document.getElementById("prev").onclick=()=>{quiz.i--;renderQ()};
+ document.getElementById("next").onclick=()=>last?reviewBeforeFinish():(quiz.i++,renderQ());
+}
+function reviewBeforeFinish(){
+ if(quiz.type==="practice"){finish();return}
+ const unanswered=quiz.list.map((q,i)=>quiz.ans[i]?null:i).filter(i=>i!==null);
+ if(!unanswered.length){finish();return}
+ app.innerHTML=`<h2>Avant de terminer</h2><div class="notice warning"><b>${unanswered.length} question(s) sans réponse.</b> Tu peux revenir les compléter ou soumettre quand même.</div><div class="card" style="margin-top:14px"><div class="palette">${quiz.list.map((q,i)=>`<button class="pal ${quiz.ans[i]?"answered":""}" data-j="${i}">${i+1}</button>`).join("")}</div></div><div class="row"><button id="returnQ" class="btn pri">Compléter</button><button id="submitQ" class="btn ghost">Soumettre</button></div>`;
+ document.getElementById("returnQ").onclick=()=>{quiz.i=unanswered[0];renderQ()};
+ document.getElementById("submitQ").onclick=finish;
+ document.querySelectorAll("[data-j]").forEach(b=>b.onclick=()=>{quiz.i=+b.dataset.j;renderQ()});
 }
 function finish(){
  clearInterval(clock); if(!quiz)return;
- let score=0,details=[];
- quiz.list.forEach((q,i)=>{let a=quiz.ans[i],ok=!!a&&q._opts[a.sel]===q.a;if(ok)score++;if(quiz.type!=="practice")record(q,ok);if(!ok)details.push({q,sel:a?q._opts[a.sel]:"Sans réponse"})});
- st.sessions.push({type:quiz.type,score,total:quiz.list.length,date:new Date().toISOString()});save();
+ let score=0,details=[],byCat={};
+ quiz.list.forEach((q,i)=>{let a=quiz.ans[i],ok=!!a&&q._opts[a.sel]===q.a;if(ok)score++;if(quiz.type!=="practice")record(q,ok);byCat[q.c]=byCat[q.c]||{r:0,t:0};byCat[q.c].t++;if(ok)byCat[q.c].r++;if(!ok)details.push({q,sel:a?q._opts[a.sel]:"Sans réponse"})});
+ st.sessions.push({type:quiz.type,score,total:quiz.list.length,date:new Date().toISOString(),byCat});save();
  const isMock=quiz.type==="mock";
- app.innerHTML=`<div class="card" style="text-align:center"><div class="ey">${isMock?"EXAMEN BLANC":"SESSION TERMINÉE"}</div><div class="big">${score}/${quiz.list.length}</div><h3>${isMock?(score>=32?"Seuil atteint ✓":"Sous le seuil ✗"):"Résultat enregistré"}</h3><p>${pct(score,quiz.list.length)}% correct.</p></div>
- ${details.length?`<h2>À revoir</h2><div class="grid">${details.map(x=>`<div class="card err"><span class="tag">${CAT[x.q.c]}</span><h3>${x.q.q}</h3><p><b>Votre réponse :</b> ${x.sel}<br><b>Bonne réponse :</b> ${x.q.a}<br>${x.q.n||""}</p></div>`).join("")}</div>`:""}
- <div class="row"><button id="back" class="btn pri">Retour à l'accueil</button></div>`;
- quiz=null;document.getElementById("back").onclick=()=>setView("home");
+ app.innerHTML=`<div class="card" style="text-align:center"><div class="ey">${isMock?"EXAMEN BLANC":"SESSION TERMINÉE"}</div><div class="big ${isMock?(score>=32?"scorepass":"scorefail"):""}">${score}/${quiz.list.length}</div><h3>${isMock?(score>=32?"Seuil officiel atteint ✓":"Sous le seuil officiel ✗"):"Résultat enregistré"}</h3><p>${pct(score,quiz.list.length)}% correct.</p></div>
+ <div class="grid two">${Object.entries(byCat).map(([c,x])=>`<div class="card"><h3>${CAT[c]}</h3><div class="big">${x.r}/${x.t}</div></div>`).join("")}</div>
+ ${details.length?`<h2>À revoir</h2><div class="grid">${details.map(x=>`<div class="card err"><span class="tag ${srcClass(x.q)}">${srcLabel(x.q)}</span><h3>${x.q.q}</h3><p><b>Votre réponse :</b> ${x.sel}<br><b>Bonne réponse :</b> ${x.q.a}<br>${x.q.n||""}</p></div>`).join("")}</div>`:""}
+ <div class="row"><button id="back" class="btn pri">Accueil</button>${details.length?'<button id="reviewWrong" class="btn sec">Réviser ces erreurs</button>':""}</div>`;
+ const wrongQs=details.map(x=>x.q);quiz=null;document.getElementById("back").onclick=()=>setView("home");if(details.length)document.getElementById("reviewWrong").onclick=()=>start("practice",wrongQs);
 }
+function exportProgress(){const blob=new Blob([JSON.stringify(st,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="examen-civique-progression-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(a.href)}
+function importProgress(e){const file=e.target.files?.[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.attempts||!x.sessions)throw new Error();st={...stateDefault(),...x};save();alert("Progression importée.");setView("home")}catch{alert("Fichier invalide.")}};r.readAsText(file)}
+let installPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e});
+document.getElementById("installBtn").onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null}else alert("Sur mobile, utilise aussi le menu du navigateur → Ajouter à l'écran d'accueil.")};
+document.getElementById("exportBtn").onclick=exportProgress;document.getElementById("importInput").onchange=importProgress;
+if("serviceWorker" in navigator)navigator.serviceWorker.register("./sw.js").catch(()=>{});
 setView(st.view||"home");
 </script>
 </body>
