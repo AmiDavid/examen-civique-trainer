@@ -6,19 +6,18 @@
 <meta name="theme-color" content="#0b1f3a">
 <title>Examen Civique — Naturalisation</title>
 <style>
-:root{--n:#0b1f3a;--b:#245aa8;--r:#d9424d;--g:#1f7a59;--bg:#f5f1e9;--c:#fffdf9;--m:#6b7280;--l:#e5ded2}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172033;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;padding-bottom:86px}button{font:inherit;cursor:pointer}
+:root{--navy:#0b1f3a;--blue:#245aa8;--red:#d9424d;--green:#1f7a59;--bg:#f5f1e9;--card:#fffdf9;--muted:#6b7280;--line:#e5ded2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172033;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;padding-bottom:88px}button{font:inherit;cursor:pointer}
 header{position:sticky;top:0;z-index:5;background:#f5f1e9ee;backdrop-filter:blur(12px);padding:16px 18px;border-bottom:1px solid #ddd5c8}
-.wrap{max-width:820px;margin:auto;padding:18px}.ey{font-size:11px;font-weight:900;letter-spacing:.15em;color:var(--r)}h1{margin:2px 0 0;color:var(--n);font-family:Georgia,serif}
-.hero{background:var(--n);color:#fff;border-radius:24px;padding:22px}.hero h2{font:700 32px Georgia,serif;margin:0 0 8px}.hero p{color:#dbe4ef;line-height:1.5}
-.grid{display:grid;gap:12px;margin-top:14px}.two{grid-template-columns:repeat(2,1fr)}.card{background:var(--c);border:1px solid var(--l);border-radius:18px;padding:17px}.card h3{margin:0 0 7px;color:var(--n)}.card p{color:var(--m);line-height:1.45}
-.big{font:700 30px Georgia,serif;color:var(--n)}.btn{border:0;border-radius:13px;padding:12px 14px;font-weight:800}.pri{background:var(--b);color:#fff}.sec{background:#e9eef7;color:var(--n)}.full{width:100%}.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
-.tag{display:inline-block;font-size:11px;font-weight:800;background:#eef1f5;color:#526174;padding:5px 8px;border-radius:999px}
-.q{font:700 25px/1.25 Georgia,serif;color:var(--n);margin:13px 0 18px}.opts{display:grid;gap:9px}.opt{border:1px solid #d9d4cb;background:#fff;border-radius:14px;padding:13px;text-align:left}.opt.sel{border-color:var(--b);box-shadow:0 0 0 2px #245aa81a}.opt.good{background:#edf8f2;border-color:#93c7b0}.opt.bad{background:#fff0f0;border-color:#edafb4}.fb{margin-top:13px;padding:13px;border-radius:14px}.ok{background:#eaf7f0;color:#185f46}.no{background:#fff0f0;color:#8c2630}
-.prog{height:8px;background:#e2ddd5;border-radius:99px;overflow:hidden;margin:12px 0 18px}.prog>div{height:100%;background:var(--b)}
-nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(680px,calc(100% - 20px));display:grid;grid-template-columns:repeat(5,1fr);background:#0b1f3af2;padding:7px;border-radius:18px}nav button{border:0;background:transparent;color:#aebbd0;padding:9px 3px;border-radius:12px;font-size:11px}nav button.on{background:#ffffff18;color:#fff}
-.stat{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--l)}.err{border-left:4px solid var(--r)}
-.timer{font-weight:900;color:var(--n)}.small{font-size:12px;color:var(--m)}
+.wrap{max-width:860px;margin:auto;padding:18px}.ey{font-size:11px;font-weight:900;letter-spacing:.15em;color:var(--red)}h1,h2,h3{color:var(--navy)}h1{margin:2px 0 0;font-family:Georgia,serif}
+.hero{background:var(--navy);color:#fff;border-radius:24px;padding:22px}.hero h2{color:#fff;font:700 32px Georgia,serif;margin:0 0 8px}.hero p{color:#dbe4ef;line-height:1.5}
+.grid{display:grid;gap:12px;margin-top:14px}.two{grid-template-columns:repeat(2,1fr)}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px}.card p{color:var(--muted);line-height:1.5}
+.big{font:700 30px Georgia,serif;color:var(--navy)}.btn{border:0;border-radius:13px;padding:12px 14px;font-weight:800}.pri{background:var(--blue);color:#fff}.sec{background:#e9eef7;color:var(--navy)}.ghost{background:transparent;border:1px solid var(--line);color:var(--navy)}.full{width:100%}.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.between{justify-content:space-between;align-items:center}
+.tag{display:inline-block;font-size:11px;font-weight:800;background:#eef1f5;color:#526174;padding:5px 8px;border-radius:999px}.tag.sim{background:#fff2d8;color:#7a5510}
+.q{font:700 25px/1.25 Georgia,serif;color:var(--navy);margin:13px 0 18px}.opts{display:grid;gap:9px}.opt{border:1px solid #d9d4cb;background:#fff;border-radius:14px;padding:13px;text-align:left}.opt.sel{border-color:var(--blue);box-shadow:0 0 0 2px #245aa81a}.opt.good{background:#edf8f2;border-color:#93c7b0}.opt.bad{background:#fff0f0;border-color:#edafb4}.fb{margin-top:13px;padding:14px;border-radius:14px;line-height:1.5}.ok{background:#eaf7f0;color:#185f46}.no{background:#fff0f0;color:#8c2630}.en{margin-top:8px;background:#f2f5fa;color:#31425f;padding:12px;border-radius:12px}
+.prog{height:8px;background:#e2ddd5;border-radius:99px;overflow:hidden;margin:12px 0 18px}.prog>div{height:100%;background:var(--blue)}
+nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(700px,calc(100% - 20px));display:grid;grid-template-columns:repeat(5,1fr);background:#0b1f3af2;padding:7px;border-radius:18px}nav button{border:0;background:transparent;color:#aebbd0;padding:9px 3px;border-radius:12px;font-size:11px}nav button.on{background:#ffffff18;color:#fff}
+.stat{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}.err{border-left:4px solid var(--red)}.timer{font-weight:900;color:var(--navy)}.small{font-size:12px;color:var(--muted)}.notice{background:#eef4ff;border:1px solid #cbd9f2;border-radius:14px;padding:13px;line-height:1.45}.bars{display:grid;gap:10px}.bar{height:8px;background:#e5e0d8;border-radius:99px;overflow:hidden}.bar>div{height:100%;background:var(--blue)}
 @media(max-width:650px){.two{grid-template-columns:1fr}.q{font-size:22px}.hero h2{font-size:29px}}
 </style>
 </head>
@@ -26,97 +25,168 @@ nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(680
 <header><div class="ey">NATURALISATION • FRANCE</div><h1>Examen Civique</h1></header>
 <main id="app" class="wrap"></main>
 <nav>
-<button data-v="home" class="on">Aujourd’hui</button><button data-v="learn">Apprendre</button><button data-v="practice">Pratiquer</button><button data-v="errors">Erreurs</button><button data-v="progress">Progrès</button>
+<button data-v="home" class="on">Aujourd’hui</button>
+<button data-v="learn">Apprendre</button>
+<button data-v="practice">Pratiquer</button>
+<button data-v="errors">Erreurs</button>
+<button data-v="progress">Progrès</button>
 </nav>
+<script src="data.js"></script>
 <script>
-const C={principes:"Principes & valeurs",institutions:"Institutions",droits:"Droits & devoirs",histoire:"Histoire, géographie & culture",vie:"Vie en France"};
-const Q=(id,c,s,q,o,a,e)=>({id,c,s,q,o,a,e});
-const qs=[
-Q("p1","principes",0,"Quelle est la devise de la République française ?",["Liberté, Égalité, Fraternité","Travail, Famille, Patrie","Unité, Justice, Solidarité","Liberté, Ordre, Patrie"],0,"La devise de la République est « Liberté, Égalité, Fraternité »."),
-Q("p2","principes",0,"Quel jour est la fête nationale française ?",["8 mai","14 juillet","11 novembre","9 décembre"],1,"La fête nationale est le 14 juillet."),
-Q("p3","principes",0,"Que porte traditionnellement Marianne sur la tête ?",["Une couronne","Un bonnet phrygien","Un béret","Un casque"],1,"Marianne est traditionnellement représentée avec un bonnet phrygien."),
-Q("p4","principes",0,"En quelle année la loi de séparation des Églises et de l'État a-t-elle été votée ?",["1789","1881","1905","1958"],2,"La loi de séparation des Églises et de l'État date de 1905."),
-Q("p5","principes",0,"La laïcité garantit notamment :",["Une religion officielle","La liberté de conscience","L'interdiction de toute religion","La priorité d'une religion historique"],1,"La laïcité garantit la liberté de conscience et la neutralité de l'État."),
-Q("p6","principes",1,"Un agent public peut-il porter un signe religieux visible dans l'exercice de ses fonctions ?",["Oui librement","Oui selon sa religion","Non, il est soumis à la neutralité","Seulement le week-end"],2,"Les agents publics sont soumis à une obligation de neutralité religieuse."),
-Q("p7","principes",1,"Une usagère d'une mairie porte un signe religieux. En règle générale :",["Elle doit l'enlever","Elle peut le garder si elle respecte le service","Elle doit suivre les règles des agents publics","Elle doit quitter les lieux"],1,"Les usagers ne sont pas soumis à la même obligation de neutralité que les agents publics."),
-Q("p8","principes",1,"Dans une école publique, un élève porte un petit signe religieux discret. Quelle règle s'applique ?",["Tout signe est interdit","Les signes discrets sont admis, les signes ostensibles sont interdits","Seuls certains cultes sont admis","Les élèves sont des agents publics"],1,"À l'école publique, les signes ostensibles sont interdits, pas les signes discrets."),
-Q("p9","principes",1,"Un service public traite deux usagers différemment à cause de leur origine. Cela respecte-t-il l'égalité ?",["Oui si le service est débordé","Oui sur décision locale","Non","Seulement pour les étrangers"],2,"Le principe d'égalité impose un traitement sans discrimination."),
-Q("p10","principes",1,"Un citoyen critique pacifiquement une décision publique. Cela relève surtout de :",["La liberté d'expression","Un privilège administratif","Une autorisation du maire","Une infraction automatique"],0,"La liberté d'expression protège la critique dans les limites fixées par la loi."),
-Q("p11","principes",1,"Une association refuse un adhérent uniquement en raison de son origine. C'est :",["Une préférence libre","Une discrimination interdite","Une obligation légale","Toujours permis en privé"],1,"La discrimination fondée sur l'origine est interdite."),
-
-Q("i1","institutions",0,"Qui nomme le Premier ministre ?",["Le Sénat","Le Président de la République","Le Conseil constitutionnel","Les maires"],1,"Le Président de la République nomme le Premier ministre."),
-Q("i2","institutions",0,"Comment sont désignés les députés ?",["Par nomination présidentielle","Par suffrage universel direct","Par les sénateurs","Par les maires"],1,"Les députés sont élus au suffrage universel direct."),
-Q("i3","institutions",0,"Le Parlement français est composé :",["De l'Assemblée nationale et du Sénat","Du Gouvernement et du Sénat","Des régions et départements","Du Président et du Gouvernement"],0,"Le Parlement comprend l'Assemblée nationale et le Sénat."),
-Q("i4","institutions",0,"Qui vote les lois ?",["Le Parlement","Le Conseil d'État seul","Les préfectures","Les tribunaux"],0,"Le Parlement vote les lois."),
-Q("i5","institutions",0,"Qui élit les députés au Parlement européen ?",["Les gouvernements","Les citoyens de l'Union européenne au suffrage direct","Les sénateurs français","La Commission européenne"],1,"Les députés européens sont élus au suffrage universel direct."),
-Q("i6","institutions",0,"Quelle collectivité territoriale est responsable des collèges publics ?",["La commune","Le département","La région","L'Union européenne"],1,"Les départements sont responsables des collèges."),
-
-Q("d1","droits",0,"Quel texte de 1789 affirme que les hommes naissent et demeurent libres et égaux en droits ?",["Le Code civil","La Déclaration des droits de l'homme et du citoyen","La Constitution de 1958","Le traité de Maastricht"],1,"Il s'agit de la Déclaration des droits de l'homme et du citoyen de 1789."),
-Q("d2","droits",0,"À quel âge est fixée la majorité civile en France ?",["16 ans","17 ans","18 ans","21 ans"],2,"La majorité civile est fixée à 18 ans."),
-Q("d3","droits",0,"Être juré d'assises après tirage au sort est :",["Toujours facultatif","Un devoir citoyen sauf motif de dispense","Réservé aux juristes","Un emploi permanent"],1,"Participer comme juré est un devoir citoyen, sous réserve des cas de dispense."),
-Q("d4","droits",0,"Une personne en garde à vue peut notamment :",["Quitter librement le commissariat","Demander l'assistance d'un avocat","Exiger l'abandon des poursuites","Refuser toute vérification d'identité"],1,"La personne gardée à vue peut demander l'assistance d'un avocat."),
-Q("d5","droits",0,"La liberté d'expression est :",["Sans aucune limite","Encadrée par la loi","Réservée aux citoyens français","Interdite sur internet"],1,"La liberté d'expression connaît des limites légales."),
-Q("d6","droits",1,"Un employeur refuse une candidate uniquement parce qu'elle est enceinte. Cette décision est :",["Permise","Une discrimination interdite","Obligatoire","Permise si l'entreprise est privée"],1,"La discrimination liée à la grossesse est interdite."),
-Q("d7","droits",1,"Vous voyez une personne inconsciente et pouvez appeler les secours sans danger. Que devez-vous faire ?",["Passer votre chemin","Alerter les secours et porter assistance selon vos possibilités","Attendre un policier","Intervenir seulement si vous la connaissez"],1,"Il faut porter assistance sans se mettre soi-même en danger."),
-Q("d8","droits",1,"Sur un réseau social, quelqu'un appelle à la haine contre un groupe en raison de son origine. La liberté d'expression le protège-t-elle automatiquement ?",["Oui","Oui depuis son domicile","Non","Oui si le message est anonyme"],2,"L'appel à la haine peut être sanctionné par la loi."),
-Q("d9","droits",1,"Une personne refuse de louer un logement uniquement à cause de l'origine du candidat. C'est :",["Toujours légal","Une discrimination interdite","Une règle municipale","Un droit absolu du propriétaire"],1,"La discrimination dans l'accès au logement est interdite."),
-Q("d10","droits",1,"Un citoyen est convoqué comme témoin par la justice. Il doit :",["Ignorer toute convocation","Respecter les obligations prévues par la procédure","Demander l'accord de son employeur pour répondre à la justice","Répondre seulement s'il le souhaite"],1,"Les convocations et obligations judiciaires doivent être respectées."),
-Q("d11","droits",1,"Une personne diffuse publiquement des propos racistes. Cela peut-il être sanctionné ?",["Non, jamais","Oui","Seulement en période électorale","Seulement si elle est fonctionnaire"],1,"Les propos racistes peuvent être sanctionnés par la loi."),
-
-Q("h1","histoire",0,"En quelle année débute la Révolution française ?",["1789","1792","1815","1848"],0,"La Révolution française débute en 1789."),
-Q("h2","histoire",0,"En 1944, quel droit majeur est reconnu aux femmes françaises ?",["Le droit de vote et d'éligibilité","Le droit de travailler pour la première fois","Le droit d'aller à l'école","Le droit de voyager"],0,"Les femmes obtiennent le droit de vote et d'éligibilité en 1944."),
-Q("h3","histoire",0,"Qui était Molière ?",["Un peintre","Un dramaturge et comédien","Un président","Un scientifique"],1,"Molière est un dramaturge et comédien majeur du XVIIe siècle."),
-Q("h4","histoire",0,"Quel département français partage une frontière terrestre avec le Brésil ?",["La Martinique","La Réunion","La Guyane","La Guadeloupe"],2,"La Guyane partage une frontière avec le Brésil."),
-Q("h5","histoire",0,"Quelle est la plus haute montagne de France ?",["Le Mont Blanc","Le Puy de Dôme","Le Mont Ventoux","Le Canigou"],0,"Le Mont Blanc est le plus haut sommet de France."),
-Q("h6","histoire",0,"La Marseillaise est :",["La devise nationale","L'hymne national","Une fête nationale","Un monument"],1,"La Marseillaise est l'hymne national français."),
-Q("h7","histoire",0,"Le 11 novembre commémore principalement :",["La fin de la Première Guerre mondiale","La Révolution française","La fin de la Seconde Guerre mondiale en Europe","La loi de 1905"],0,"Le 11 novembre commémore l'armistice de 1918."),
-Q("h8","histoire",0,"Le drapeau français est composé des couleurs :",["Bleu, blanc, rouge","Rouge, blanc, vert","Bleu, jaune, rouge","Noir, blanc, rouge"],0,"Le drapeau français est bleu, blanc, rouge."),
-
-Q("v1","vie",0,"Quelle est la durée légale du travail à temps complet en France ?",["30 h","32 h","35 h","40 h"],2,"La durée légale est de 35 heures par semaine."),
-Q("v2","vie",0,"À quoi sert principalement la carte Vitale ?",["Prouver la nationalité","Faciliter la prise en charge des soins par l'Assurance maladie","Obtenir une mutuelle gratuite","Voter"],1,"La carte Vitale facilite la prise en charge et le remboursement des soins."),
-Q("v3","vie",0,"Peut-on fumer dans la salle d'attente fermée d'un hôpital ?",["Oui","Oui après 20 h","Non","Oui avec l'accord d'un médecin"],2,"Il est interdit de fumer dans les lieux collectifs fermés concernés par l'interdiction."),
-Q("v4","vie",0,"L'instruction est obligatoire pour les enfants résidant en France :",["Seulement s'ils sont français","Selon les règles d'âge prévues par la loi, quelle que soit leur nationalité","Seulement à Paris","Uniquement dans le public"],1,"L'obligation d'instruction s'applique aux enfants résidant en France selon les âges légaux.")
-];
-
-const lessons=[
-["Principes & valeurs","Devise, symboles, égalité, liberté, fraternité et laïcité. Retenir surtout la neutralité de l'État et la différence entre agents publics et usagers."],
-["Institutions","Président, Premier ministre, Gouvernement, Parlement, élections et collectivités territoriales."],
-["Droits & devoirs","Libertés fondamentales, non-discrimination, justice, devoirs civiques et assistance à personne en danger."],
-["Histoire, géographie & culture","1789, 1905, 1944, symboles nationaux, grandes dates, géographie et figures culturelles."],
-["Vie en France","Travail, santé, école, règles de vie quotidienne et services publics."]
-];
-
-const defaultState=()=>({attempts:{},sessions:[],view:"home"});
-let st=JSON.parse(localStorage.getItem("civique-v1")||"null")||defaultState(), quiz=null, timer=null;
-const app=document.getElementById("app"), pct=(a,b)=>b?Math.round(a/b*100):0;
-function save(){localStorage.setItem("civique-v1",JSON.stringify(st))}
-function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
-function mark(q,ok){let x=st.attempts[q.id]||{right:0,wrong:0};ok?x.right++:x.wrong++;st.attempts[q.id]=x;save()}
-function stats(){let r=0,w=0;Object.values(st.attempts).forEach(x=>{r+=x.right;w+=x.wrong});return{r,w,t:r+w,p:pct(r,r+w)}}
+const CAT={principes:"Principes & valeurs",institutions:"Institutions",droits:"Droits & devoirs",histoire:"Histoire, géographie & culture",vie:"Vie en France"};
+const ALL=[...window.CIVIQUE_KNOWLEDGE,...window.CIVIQUE_SITUATIONS];
+const stateDefault=()=>({attempts:{},sessions:[],view:"home",version:2});
+let st=JSON.parse(localStorage.getItem("civique-v2")||"null")||stateDefault(), quiz=null, clock=null;
+const app=document.getElementById("app");
+const save=()=>localStorage.setItem("civique-v2",JSON.stringify(st));
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const pct=(a,b)=>b?Math.round(100*a/b):0;
+const day=86400000;
+function ainfo(q){return st.attempts[q.id]||{right:0,wrong:0,streak:0,due:0,last:null}}
+function record(q,ok){
+ let x=ainfo(q); x.last=Date.now();
+ if(ok){x.right++;x.streak=(x.streak||0)+1;const gaps=[1,3,7,14,30,60];x.due=Date.now()+day*gaps[Math.min(x.streak-1,gaps.length-1)]}
+ else{x.wrong++;x.streak=0;x.due=Date.now()+day}
+ st.attempts[q.id]=x; save();
+}
+function overall(){let r=0,w=0;Object.values(st.attempts).forEach(x=>{r+=x.right||0;w+=x.wrong||0});return{r,w,t:r+w,p:pct(r,r+w)}}
+function dueItems(){return ALL.filter(q=>{let x=ainfo(q);return x.wrong>0&&x.due<=Date.now()}).sort((a,b)=>ainfo(a).due-ainfo(b).due)}
+function wrongItems(){return ALL.filter(q=>ainfo(q).wrong>0).sort((a,b)=>ainfo(b).wrong-ainfo(a).wrong)}
+function uniqueAnswers(pool,answer,n=3){let vals=shuffle([...new Set(pool.map(x=>x.a).filter(Boolean).filter(x=>x!==answer))]);return vals.slice(0,n)}
+function optionsFor(q){
+ if(q.choices)return shuffle([...q.choices]);
+ let pool=window.CIVIQUE_KNOWLEDGE.filter(x=>x.t===q.t&&x.id!==q.id);
+ let d=uniqueAnswers(pool,q.a,3);
+ if(d.length<3)d=[...d,...uniqueAnswers(window.CIVIQUE_KNOWLEDGE.filter(x=>x.c===q.c&&x.id!==q.id),q.a,3-d.length)];
+ if(d.length<3)d=[...d,...uniqueAnswers(window.CIVIQUE_KNOWLEDGE.filter(x=>x.id!==q.id),q.a,3-d.length)];
+ return shuffle([q.a,...d.slice(0,3)]);
+}
+function mockSet(){
+ const pick=(arr,n)=>shuffle(arr).slice(0,n);
+ return shuffle([
+  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="principes"),5),
+  ...pick(window.CIVIQUE_SITUATIONS.filter(q=>q.c==="principes"),6),
+  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="institutions"),6),
+  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="droits"),5),
+  ...pick(window.CIVIQUE_SITUATIONS.filter(q=>q.c==="droits"),6),
+  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="histoire"),8),
+  ...pick(window.CIVIQUE_KNOWLEDGE.filter(q=>q.c==="vie"),4)
+ ]);
+}
+function diagnosticSet(){
+ return shuffle([
+  ...shuffle(ALL.filter(q=>q.c==="principes")).slice(0,7),
+  ...shuffle(ALL.filter(q=>q.c==="institutions")).slice(0,4),
+  ...shuffle(ALL.filter(q=>q.c==="droits")).slice(0,7),
+  ...shuffle(ALL.filter(q=>q.c==="histoire")).slice(0,5),
+  ...shuffle(ALL.filter(q=>q.c==="vie")).slice(0,2)
+ ]);
+}
 function setView(v){st.view=v;save();document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));({home,learn,practice,errors,progress}[v]||home)()}
 document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
 
 function home(){
- let s=stats(),errs=Object.values(st.attempts).filter(x=>x.wrong).length,mocks=st.sessions.filter(x=>x.type==="mock");
- app.innerHTML=`<section class="hero"><div class="ey">PRÉPARATION PERSONNELLE</div><h2>Prêt pour une courte session ?</h2><p>Travaille par petites séries, révise tes erreurs, puis passe des examens blancs de 40 questions en 45 minutes.</p></section>
- <div class="grid two"><div class="card"><h3>Précision globale</h3><div class="big">${s.t?s.p+"%":"—"}</div><p>${s.t} réponses enregistrées</p></div><div class="card"><h3>Journal d'erreurs</h3><div class="big">${errs}</div><p>questions à consolider</p></div></div>
- <div class="grid two"><div class="card"><h3>Diagnostic</h3><p>25 questions avant apprentissage.</p><div class="row"><button class="btn pri" id="diag">Commencer</button></div></div>
- <div class="card"><h3>Examen blanc</h3><p>40 questions · 45 min · seuil 32/40.</p><div class="row"><button class="btn pri" id="mock">Lancer</button></div></div></div>
- <div class="card" style="margin-top:14px"><h3>Examens blancs</h3><p>${mocks.length?mocks.slice(-3).map(m=>m.score+"/40").join(" · "):"Aucun pour l'instant."}</p></div>`;
- document.getElementById("diag").onclick=()=>start("diagnostic",shuffle(qs).slice(0,25));
- document.getElementById("mock").onclick=()=>start("mock",qs);
+ const o=overall(),due=dueItems().length,mocks=st.sessions.filter(x=>x.type==="mock");
+ app.innerHTML=`
+ <section class="hero"><div class="ey">PRÉPARATION PERSONNELLE</div><h2>Entraînement civique</h2><p>${window.CIVIQUE_KNOWLEDGE.length} questions de connaissance d'entraînement couvrant la liste officielle + variantes, ${window.CIVIQUE_SITUATIONS.length} situations simulées, examens blancs aléatoires et révision espacée.</p></section>
+ <div class="notice" style="margin-top:14px"><b>Transparence :</b> le ministère publie les thèmes/questions de connaissance, mais pas les 4 choix de réponse ni les 12 situations réelles. Les QCM de cette application sont donc des entraînements reformulés ; les situations sont explicitement simulées.</div>
+ <div class="grid two">
+  <div class="card"><h3>Précision globale</h3><div class="big">${o.t?o.p+"%":"—"}</div><p>${o.t} réponses enregistrées</p></div>
+  <div class="card"><h3>À réviser aujourd'hui</h3><div class="big">${due}</div><p>questions arrivées à échéance</p>${due?'<button class="btn pri" id="dueBtn">Réviser maintenant</button>':""}</div>
+ </div>
+ <div class="grid two">
+  <div class="card"><h3>Diagnostic</h3><p>25 questions, sans correction avant la fin.</p><button class="btn pri" id="diag">Commencer</button></div>
+  <div class="card"><h3>Examen blanc</h3><p>40 questions · 45 min · 32/40 requis · tirage différent à chaque fois.</p><button class="btn pri" id="mock">Lancer</button></div>
+ </div>
+ <div class="card" style="margin-top:14px"><h3>Derniers examens</h3><p>${mocks.length?mocks.slice(-5).reverse().map(m=>m.score+"/40").join(" · "):"Aucun pour l'instant."}</p></div>`;
+ document.getElementById("diag").onclick=()=>start("diagnostic",diagnosticSet());
+ document.getElementById("mock").onclick=()=>start("mock",mockSet());
+ if(due)document.getElementById("dueBtn").onclick=()=>start("practice",dueItems().slice(0,15));
 }
-function learn(){app.innerHTML=`<h2>Leçons courtes</h2><div class="grid">${lessons.map((x,i)=>`<div class="card"><span class="tag">Leçon ${i+1}</span><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")}</div>`}
-function practice(){app.innerHTML=`<h2>Pratiquer</h2><div class="grid">${Object.entries(C).map(([k,v])=>`<div class="card"><h3>${v}</h3><p>${qs.filter(q=>q.c===k).length} questions disponibles.</p><div class="row"><button class="btn pri" data-cat="${k}">Faire une série</button></div></div>`).join("")}</div>`;document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>start("practice",shuffle(qs.filter(q=>q.c===b.dataset.cat)).slice(0,10)))}
-function errors(){let rows=qs.filter(q=>(st.attempts[q.id]?.wrong||0)>0).sort((a,b)=>(st.attempts[b.id].wrong-st.attempts[a.id].wrong));app.innerHTML=`<h2>Journal d'erreurs</h2>${rows.length?`<div class="grid">${rows.map(q=>`<div class="card err"><span class="tag">${C[q.c]}</span><h3>${q.q}</h3><p><b>À retenir :</b> ${q.e}</p><div class="small">${st.attempts[q.id].wrong} erreur(s) · ${st.attempts[q.id].right} bonne(s)</div></div>`).join("")}</div><div class="row"><button id="rev" class="btn pri">Réviser 10 erreurs</button></div>`:'<div class="card"><p>Aucune erreur enregistrée pour l’instant.</p></div>'}`;if(rows.length)document.getElementById("rev").onclick=()=>start("practice",rows.slice(0,10))}
-function progress(){let s=stats();let cats=Object.keys(C).map(c=>{let r=0,w=0;qs.filter(q=>q.c===c).forEach(q=>{let a=st.attempts[q.id];if(a){r+=a.right;w+=a.wrong}});return[c,r,w]});let mocks=st.sessions.filter(x=>x.type==="mock");app.innerHTML=`<h2>Progrès</h2><div class="grid two"><div class="card"><h3>Réponses</h3><div class="big">${s.t}</div><p>${s.p}% correctes</p></div><div class="card"><h3>Examens blancs</h3><div class="big">${mocks.length}</div><p>${mocks.filter(m=>m.score>=32).length} au-dessus du seuil</p></div></div><div class="card" style="margin-top:14px">${cats.map(([c,r,w])=>`<div class="stat"><span>${C[c]}</span><b>${r+w?pct(r,r+w)+"%":"—"}</b></div>`).join("")}</div>`}
-function start(type,list){quiz={type,list:shuffle(list),i:0,ans:[],remain:type==="mock"?2700:null};if(type==="mock"){timer=setInterval(()=>{quiz.remain--;let t=document.getElementById("tm");if(t)t.textContent=fmt(quiz.remain);if(quiz.remain<=0)finish()},1000)}renderQ()}
-function fmt(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
-function renderQ(){let q=quiz.list[quiz.i],prev=quiz.ans[quiz.i];app.innerHTML=`<div class="row" style="justify-content:space-between"><button id="quit" class="btn sec">← Quitter</button><span class="timer" id="tm">${quiz.remain!==null?fmt(quiz.remain):quiz.type==="diagnostic"?"Diagnostic":"Entraînement"}</span></div><div class="prog"><div style="width:${(quiz.i+1)/quiz.list.length*100}%"></div></div><div class="card"><span class="tag">${C[q.c]}</span><span class="tag" style="float:right">${quiz.i+1}/${quiz.list.length}</span><div class="q">${q.q}</div><div class="opts">${q.o.map((o,i)=>`<button class="opt ${prev?.sel===i?"sel":""}" data-i="${i}">${"ABCD"[i]}. ${o}</button>`).join("")}</div><div id="fb"></div><div class="row" id="acts"></div></div>`;document.getElementById("quit").onclick=()=>{if(confirm("Quitter cette session ?")){clearInterval(timer);quiz=null;setView("home")}};document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>choose(+b.dataset.i));if(prev&&quiz.type==="practice"&&prev.rev)feedback(q,prev.sel);else if(prev&&quiz.type!=="practice")nextBtn()}
-function choose(i){let q=quiz.list[quiz.i];if(quiz.type==="practice"&&quiz.ans[quiz.i]?.rev)return;quiz.ans[quiz.i]={sel:i,rev:quiz.type==="practice"};if(quiz.type==="practice"){mark(q,i===q.a);feedback(q,i)}else{document.querySelectorAll(".opt").forEach((b,j)=>b.classList.toggle("sel",j===i));nextBtn()}}
-function feedback(q,i){document.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("good");if(j===i&&i!==q.a)b.classList.add("bad")});let ok=i===q.a;document.getElementById("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct":"À revoir"}</b><br>${q.e}</div>`;nextBtn()}
-function nextBtn(){let last=quiz.i===quiz.list.length-1;document.getElementById("acts").innerHTML=`<button id="next" class="btn pri full">${last?"Terminer":"Question suivante"}</button>`;document.getElementById("next").onclick=()=>last?finish():(quiz.i++,renderQ())}
-function finish(){clearInterval(timer);let score=0;quiz.list.forEach((q,i)=>{let a=quiz.ans[i],ok=a&&a.sel===q.a;if(ok)score++;if(quiz.type!=="practice")mark(q,!!ok)});st.sessions.push({type:quiz.type,score,total:quiz.list.length,date:new Date().toISOString()});save();let isMock=quiz.type==="mock",wrong=quiz.list.filter((q,i)=>!quiz.ans[i]||quiz.ans[i].sel!==q.a);app.innerHTML=`<div class="card" style="text-align:center"><div class="ey">${isMock?"EXAMEN BLANC":"SESSION TERMINÉE"}</div><div class="big">${score}/${quiz.list.length}</div><h3>${isMock?(score>=32?"Seuil atteint":"Sous le seuil"):"Résultat enregistré"}</h3><p>${pct(score,quiz.list.length)}% correct.</p></div>${wrong.length?`<h2>À revoir</h2><div class="grid">${wrong.slice(0,8).map(q=>`<div class="card err"><h3>${q.q}</h3><p>${q.e}</p></div>`).join("")}</div>`:""}<div class="row"><button id="back" class="btn pri">Retour</button></div>`;quiz=null;document.getElementById("back").onclick=()=>setView("home")}
+function learn(){
+ const lessons=[
+ ["Principes & valeurs","Devise, symboles, liberté, égalité, fraternité, laïcité, neutralité du service public et non-discrimination."],
+ ["Institutions","Président, Premier ministre, Parlement, élections, collectivités territoriales et Union européenne."],
+ ["Droits & devoirs","Libertés fondamentales, justice, obligations civiques, sécurité, solidarité et respect de la loi."],
+ ["Histoire, géographie & culture","Dates-clés, Révolution, guerres mondiales, outre-mer, patrimoine, artistes et géographie."],
+ ["Vie en France","État civil, logement, santé, travail, école, famille et services publics."]
+ ];
+ app.innerHTML=`<h2>Leçons courtes</h2><div class="grid">${lessons.map((x,i)=>`<div class="card"><span class="tag">Leçon ${i+1}</span><h3>${x[0]}</h3><p>${x[1]}</p><button class="btn sec" data-l="${Object.keys(CAT)[i]}">Pratiquer ce thème</button></div>`).join("")}</div>`;
+ document.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>start("practice",shuffle(ALL.filter(q=>q.c===b.dataset.l)).slice(0,12)));
+}
+function practice(){
+ app.innerHTML=`<h2>Pratiquer</h2><div class="grid two">
+ <div class="card"><h3>Révision intelligente</h3><p>Priorité aux erreurs et aux questions arrivées à échéance.</p><button id="smart" class="btn pri">Session intelligente</button></div>
+ <div class="card"><h3>Situations civiques</h3><p>Questions pratiques simulant la partie non publiée de l'examen.</p><button id="situ" class="btn pri">12 situations</button></div>
+ </div>
+ <div class="grid">${Object.entries(CAT).map(([k,v])=>`<div class="card"><h3>${v}</h3><p>${ALL.filter(q=>q.c===k).length} cartes disponibles.</p><button class="btn sec" data-cat="${k}">10 questions</button></div>`).join("")}</div>`;
+ document.getElementById("smart").onclick=()=>{let d=dueItems(),w=wrongItems();let p=[...new Map([...d,...w,...shuffle(ALL)].map(x=>[x.id,x])).values()].slice(0,15);start("practice",p)};
+ document.getElementById("situ").onclick=()=>start("practice",shuffle(window.CIVIQUE_SITUATIONS).slice(0,12));
+ document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>start("practice",shuffle(ALL.filter(q=>q.c===b.dataset.cat)).slice(0,10)));
+}
+function errors(){
+ const rows=wrongItems();
+ app.innerHTML=`<h2>Journal d'erreurs</h2>
+ <div class="row"><button class="btn pri" id="rev">${dueItems().length?"Réviser les questions dues":"Réviser mes erreurs"}</button></div>
+ ${rows.length?'<div class="grid">'+rows.slice(0,60).map(q=>{let x=ainfo(q);return `<div class="card err"><span class="tag">${CAT[q.c]}</span><h3>${q.q}</h3><p><b>À retenir :</b> ${q.a}</p><div class="small">${x.wrong} erreur(s) · ${x.right} bonne(s) · prochaine révision : ${x.due<=Date.now()?"maintenant":new Date(x.due).toLocaleDateString("fr-FR")}</div></div>`}).join("")+"</div>":'<div class="card"><p>Aucune erreur enregistrée.</p></div>'}`;
+ document.getElementById("rev").onclick=()=>start("practice",(dueItems().length?dueItems():rows).slice(0,15));
+}
+function progress(){
+ const o=overall(),mocks=st.sessions.filter(x=>x.type==="mock");
+ let rows=Object.keys(CAT).map(c=>{let r=0,w=0;ALL.filter(q=>q.c===c).forEach(q=>{let x=st.attempts[q.id];if(x){r+=x.right||0;w+=x.wrong||0}});return[c,r,w]});
+ app.innerHTML=`<h2>Progrès</h2><div class="grid two">
+ <div class="card"><h3>Réponses</h3><div class="big">${o.t}</div><p>${o.p}% correctes</p></div>
+ <div class="card"><h3>Examens blancs</h3><div class="big">${mocks.length}</div><p>${mocks.filter(m=>m.score>=32).length} au-dessus du seuil</p></div>
+ </div><div class="card" style="margin-top:14px"><div class="bars">${rows.map(([c,r,w])=>`<div><div class="stat"><span>${CAT[c]}</span><b>${r+w?pct(r,r+w)+"%":"—"}</b></div><div class="bar"><div style="width:${r+w?pct(r,r+w):0}%"></div></div></div>`).join("")}</div></div>
+ <div class="card" style="margin-top:14px"><h3>Historique des examens</h3><p>${mocks.length?mocks.slice(-10).reverse().map(m=>new Date(m.date).toLocaleDateString("fr-FR")+" — "+m.score+"/40 "+(m.score>=32?"✓":"✗")).join("<br>"):"Aucun examen blanc."}</p></div>`;
+}
+function start(type,list){
+ clearInterval(clock);
+ quiz={type,list:list.map(q=>({...q,_opts:optionsFor(q)})),i:0,ans:[],remain:type==="mock"?2700:null};
+ if(type==="mock")clock=setInterval(()=>{if(!quiz)return;quiz.remain--;let t=document.getElementById("tm");if(t)t.textContent=fmt(quiz.remain);if(quiz.remain<=0)finish()},1000);
+ renderQ();
+}
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+function renderQ(){
+ const q=quiz.list[quiz.i], prev=quiz.ans[quiz.i], practiceMode=quiz.type==="practice";
+ app.innerHTML=`<div class="row between"><button id="quit" class="btn sec">← Quitter</button><span class="timer" id="tm">${quiz.remain!==null?fmt(quiz.remain):quiz.type==="diagnostic"?"Diagnostic":"Entraînement"}</span></div>
+ <div class="prog"><div style="width:${(quiz.i+1)/quiz.list.length*100}%"></div></div>
+ <div class="card"><span class="tag">${CAT[q.c]}</span> <span class="tag ${q.kind==="situation"?"sim":""}">${q.kind==="situation"?"Situation simulée":"Connaissance"}</span><span class="tag" style="float:right">${quiz.i+1}/${quiz.list.length}</span>
+ <div class="q">${q.q}</div><div class="opts">${q._opts.map((o,i)=>`<button class="opt ${prev?.sel===i?"sel":""}" data-i="${i}">${"ABCD"[i]}. ${o}</button>`).join("")}</div><div id="fb"></div><div class="row" id="acts"></div></div>`;
+ document.getElementById("quit").onclick=()=>{if(confirm("Quitter cette session ?")){clearInterval(clock);quiz=null;setView("home")}};
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>choose(+b.dataset.i));
+ if(prev&&practiceMode&&prev.reviewed)showFeedback(q,prev.sel); else if(prev&&!practiceMode)nextButton();
+}
+function choose(i){
+ const q=quiz.list[quiz.i];
+ if(quiz.type==="practice"&&quiz.ans[quiz.i]?.reviewed)return;
+ quiz.ans[quiz.i]={sel:i,reviewed:quiz.type==="practice"};
+ if(quiz.type==="practice"){record(q,q._opts[i]===q.a);showFeedback(q,i)}
+ else{document.querySelectorAll(".opt").forEach((b,j)=>b.classList.toggle("sel",j===i));nextButton()}
+}
+function showFeedback(q,i){
+ const ok=q._opts[i]===q.a;
+ document.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true;if(q._opts[j]===q.a)b.classList.add("good");if(j===i&&!ok)b.classList.add("bad")});
+ document.getElementById("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct":"À revoir"}</b><br><b>Réponse :</b> ${q.a}<br>${q.n||"À retenir : "+q.a}<div class="row"><button class="btn ghost" id="why">Explain in English</button></div><div id="english"></div></div>`;
+ document.getElementById("why").onclick=()=>{document.getElementById("english").innerHTML=`<div class="en"><b>English help:</b> The key fact to remember is: <i>${q.a}</i>. ${ok?"Your answer matched the expected rule/fact.":"Your answer did not match the expected rule/fact, so review the distinction in the French wording and the fact above."}</div>`};
+ nextButton();
+}
+function nextButton(){
+ const last=quiz.i===quiz.list.length-1;
+ document.getElementById("acts").innerHTML=`<button id="next" class="btn pri full">${last?"Terminer":"Question suivante"}</button>`;
+ document.getElementById("next").onclick=()=>last?finish():(quiz.i++,renderQ());
+}
+function finish(){
+ clearInterval(clock); if(!quiz)return;
+ let score=0,details=[];
+ quiz.list.forEach((q,i)=>{let a=quiz.ans[i],ok=!!a&&q._opts[a.sel]===q.a;if(ok)score++;if(quiz.type!=="practice")record(q,ok);if(!ok)details.push({q,sel:a?q._opts[a.sel]:"Sans réponse"})});
+ st.sessions.push({type:quiz.type,score,total:quiz.list.length,date:new Date().toISOString()});save();
+ const isMock=quiz.type==="mock";
+ app.innerHTML=`<div class="card" style="text-align:center"><div class="ey">${isMock?"EXAMEN BLANC":"SESSION TERMINÉE"}</div><div class="big">${score}/${quiz.list.length}</div><h3>${isMock?(score>=32?"Seuil atteint ✓":"Sous le seuil ✗"):"Résultat enregistré"}</h3><p>${pct(score,quiz.list.length)}% correct.</p></div>
+ ${details.length?`<h2>À revoir</h2><div class="grid">${details.map(x=>`<div class="card err"><span class="tag">${CAT[x.q.c]}</span><h3>${x.q.q}</h3><p><b>Votre réponse :</b> ${x.sel}<br><b>Bonne réponse :</b> ${x.q.a}<br>${x.q.n||""}</p></div>`).join("")}</div>`:""}
+ <div class="row"><button id="back" class="btn pri">Retour à l'accueil</button></div>`;
+ quiz=null;document.getElementById("back").onclick=()=>setView("home");
+}
 setView(st.view||"home");
 </script>
 </body>
