@@ -1,37 +1,123 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b1f3a" />
-  <title>Examen Civique — Naturalisation</title>
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="icon" href="icon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1f3a">
+<title>Examen Civique — Naturalisation</title>
+<style>
+:root{--n:#0b1f3a;--b:#245aa8;--r:#d9424d;--g:#1f7a59;--bg:#f5f1e9;--c:#fffdf9;--m:#6b7280;--l:#e5ded2}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172033;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;padding-bottom:86px}button{font:inherit;cursor:pointer}
+header{position:sticky;top:0;z-index:5;background:#f5f1e9ee;backdrop-filter:blur(12px);padding:16px 18px;border-bottom:1px solid #ddd5c8}
+.wrap{max-width:820px;margin:auto;padding:18px}.ey{font-size:11px;font-weight:900;letter-spacing:.15em;color:var(--r)}h1{margin:2px 0 0;color:var(--n);font-family:Georgia,serif}
+.hero{background:var(--n);color:#fff;border-radius:24px;padding:22px}.hero h2{font:700 32px Georgia,serif;margin:0 0 8px}.hero p{color:#dbe4ef;line-height:1.5}
+.grid{display:grid;gap:12px;margin-top:14px}.two{grid-template-columns:repeat(2,1fr)}.card{background:var(--c);border:1px solid var(--l);border-radius:18px;padding:17px}.card h3{margin:0 0 7px;color:var(--n)}.card p{color:var(--m);line-height:1.45}
+.big{font:700 30px Georgia,serif;color:var(--n)}.btn{border:0;border-radius:13px;padding:12px 14px;font-weight:800}.pri{background:var(--b);color:#fff}.sec{background:#e9eef7;color:var(--n)}.full{width:100%}.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.tag{display:inline-block;font-size:11px;font-weight:800;background:#eef1f5;color:#526174;padding:5px 8px;border-radius:999px}
+.q{font:700 25px/1.25 Georgia,serif;color:var(--n);margin:13px 0 18px}.opts{display:grid;gap:9px}.opt{border:1px solid #d9d4cb;background:#fff;border-radius:14px;padding:13px;text-align:left}.opt.sel{border-color:var(--b);box-shadow:0 0 0 2px #245aa81a}.opt.good{background:#edf8f2;border-color:#93c7b0}.opt.bad{background:#fff0f0;border-color:#edafb4}.fb{margin-top:13px;padding:13px;border-radius:14px}.ok{background:#eaf7f0;color:#185f46}.no{background:#fff0f0;color:#8c2630}
+.prog{height:8px;background:#e2ddd5;border-radius:99px;overflow:hidden;margin:12px 0 18px}.prog>div{height:100%;background:var(--b)}
+nav{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(680px,calc(100% - 20px));display:grid;grid-template-columns:repeat(5,1fr);background:#0b1f3af2;padding:7px;border-radius:18px}nav button{border:0;background:transparent;color:#aebbd0;padding:9px 3px;border-radius:12px;font-size:11px}nav button.on{background:#ffffff18;color:#fff}
+.stat{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--l)}.err{border-left:4px solid var(--r)}
+.timer{font-weight:900;color:var(--n)}.small{font-size:12px;color:var(--m)}
+@media(max-width:650px){.two{grid-template-columns:1fr}.q{font-size:22px}.hero h2{font-size:29px}}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <div class="eyebrow">NATURALISATION • FRANCE</div>
-      <h1>Examen Civique</h1>
-    </div>
-    <div class="top-actions">
-      <button id="exportBtn" class="ghost small">Exporter</button>
-      <label class="ghost small file-label">Importer<input id="importInput" type="file" accept="application/json" hidden></label>
-    </div>
-  </header>
+<header><div class="ey">NATURALISATION • FRANCE</div><h1>Examen Civique</h1></header>
+<main id="app" class="wrap"></main>
+<nav>
+<button data-v="home" class="on">Aujourd’hui</button><button data-v="learn">Apprendre</button><button data-v="practice">Pratiquer</button><button data-v="errors">Erreurs</button><button data-v="progress">Progrès</button>
+</nav>
+<script>
+const C={principes:"Principes & valeurs",institutions:"Institutions",droits:"Droits & devoirs",histoire:"Histoire, géographie & culture",vie:"Vie en France"};
+const Q=(id,c,s,q,o,a,e)=>({id,c,s,q,o,a,e});
+const qs=[
+Q("p1","principes",0,"Quelle est la devise de la République française ?",["Liberté, Égalité, Fraternité","Travail, Famille, Patrie","Unité, Justice, Solidarité","Liberté, Ordre, Patrie"],0,"La devise de la République est « Liberté, Égalité, Fraternité »."),
+Q("p2","principes",0,"Quel jour est la fête nationale française ?",["8 mai","14 juillet","11 novembre","9 décembre"],1,"La fête nationale est le 14 juillet."),
+Q("p3","principes",0,"Que porte traditionnellement Marianne sur la tête ?",["Une couronne","Un bonnet phrygien","Un béret","Un casque"],1,"Marianne est traditionnellement représentée avec un bonnet phrygien."),
+Q("p4","principes",0,"En quelle année la loi de séparation des Églises et de l'État a-t-elle été votée ?",["1789","1881","1905","1958"],2,"La loi de séparation des Églises et de l'État date de 1905."),
+Q("p5","principes",0,"La laïcité garantit notamment :",["Une religion officielle","La liberté de conscience","L'interdiction de toute religion","La priorité d'une religion historique"],1,"La laïcité garantit la liberté de conscience et la neutralité de l'État."),
+Q("p6","principes",1,"Un agent public peut-il porter un signe religieux visible dans l'exercice de ses fonctions ?",["Oui librement","Oui selon sa religion","Non, il est soumis à la neutralité","Seulement le week-end"],2,"Les agents publics sont soumis à une obligation de neutralité religieuse."),
+Q("p7","principes",1,"Une usagère d'une mairie porte un signe religieux. En règle générale :",["Elle doit l'enlever","Elle peut le garder si elle respecte le service","Elle doit suivre les règles des agents publics","Elle doit quitter les lieux"],1,"Les usagers ne sont pas soumis à la même obligation de neutralité que les agents publics."),
+Q("p8","principes",1,"Dans une école publique, un élève porte un petit signe religieux discret. Quelle règle s'applique ?",["Tout signe est interdit","Les signes discrets sont admis, les signes ostensibles sont interdits","Seuls certains cultes sont admis","Les élèves sont des agents publics"],1,"À l'école publique, les signes ostensibles sont interdits, pas les signes discrets."),
+Q("p9","principes",1,"Un service public traite deux usagers différemment à cause de leur origine. Cela respecte-t-il l'égalité ?",["Oui si le service est débordé","Oui sur décision locale","Non","Seulement pour les étrangers"],2,"Le principe d'égalité impose un traitement sans discrimination."),
+Q("p10","principes",1,"Un citoyen critique pacifiquement une décision publique. Cela relève surtout de :",["La liberté d'expression","Un privilège administratif","Une autorisation du maire","Une infraction automatique"],0,"La liberté d'expression protège la critique dans les limites fixées par la loi."),
+Q("p11","principes",1,"Une association refuse un adhérent uniquement en raison de son origine. C'est :",["Une préférence libre","Une discrimination interdite","Une obligation légale","Toujours permis en privé"],1,"La discrimination fondée sur l'origine est interdite."),
 
-  <main id="app"></main>
+Q("i1","institutions",0,"Qui nomme le Premier ministre ?",["Le Sénat","Le Président de la République","Le Conseil constitutionnel","Les maires"],1,"Le Président de la République nomme le Premier ministre."),
+Q("i2","institutions",0,"Comment sont désignés les députés ?",["Par nomination présidentielle","Par suffrage universel direct","Par les sénateurs","Par les maires"],1,"Les députés sont élus au suffrage universel direct."),
+Q("i3","institutions",0,"Le Parlement français est composé :",["De l'Assemblée nationale et du Sénat","Du Gouvernement et du Sénat","Des régions et départements","Du Président et du Gouvernement"],0,"Le Parlement comprend l'Assemblée nationale et le Sénat."),
+Q("i4","institutions",0,"Qui vote les lois ?",["Le Parlement","Le Conseil d'État seul","Les préfectures","Les tribunaux"],0,"Le Parlement vote les lois."),
+Q("i5","institutions",0,"Qui élit les députés au Parlement européen ?",["Les gouvernements","Les citoyens de l'Union européenne au suffrage direct","Les sénateurs français","La Commission européenne"],1,"Les députés européens sont élus au suffrage universel direct."),
+Q("i6","institutions",0,"Quelle collectivité territoriale est responsable des collèges publics ?",["La commune","Le département","La région","L'Union européenne"],1,"Les départements sont responsables des collèges."),
 
-  <nav class="bottom-nav" aria-label="Navigation principale">
-    <button data-view="today" class="nav-btn active"><span>⌂</span><small>Aujourd’hui</small></button>
-    <button data-view="learn" class="nav-btn"><span>▤</span><small>Apprendre</small></button>
-    <button data-view="practice" class="nav-btn"><span>✓</span><small>Pratiquer</small></button>
-    <button data-view="errors" class="nav-btn"><span>!</span><small>Erreurs</small></button>
-    <button data-view="progress" class="nav-btn"><span>↗</span><small>Progrès</small></button>
-  </nav>
+Q("d1","droits",0,"Quel texte de 1789 affirme que les hommes naissent et demeurent libres et égaux en droits ?",["Le Code civil","La Déclaration des droits de l'homme et du citoyen","La Constitution de 1958","Le traité de Maastricht"],1,"Il s'agit de la Déclaration des droits de l'homme et du citoyen de 1789."),
+Q("d2","droits",0,"À quel âge est fixée la majorité civile en France ?",["16 ans","17 ans","18 ans","21 ans"],2,"La majorité civile est fixée à 18 ans."),
+Q("d3","droits",0,"Être juré d'assises après tirage au sort est :",["Toujours facultatif","Un devoir citoyen sauf motif de dispense","Réservé aux juristes","Un emploi permanent"],1,"Participer comme juré est un devoir citoyen, sous réserve des cas de dispense."),
+Q("d4","droits",0,"Une personne en garde à vue peut notamment :",["Quitter librement le commissariat","Demander l'assistance d'un avocat","Exiger l'abandon des poursuites","Refuser toute vérification d'identité"],1,"La personne gardée à vue peut demander l'assistance d'un avocat."),
+Q("d5","droits",0,"La liberté d'expression est :",["Sans aucune limite","Encadrée par la loi","Réservée aux citoyens français","Interdite sur internet"],1,"La liberté d'expression connaît des limites légales."),
+Q("d6","droits",1,"Un employeur refuse une candidate uniquement parce qu'elle est enceinte. Cette décision est :",["Permise","Une discrimination interdite","Obligatoire","Permise si l'entreprise est privée"],1,"La discrimination liée à la grossesse est interdite."),
+Q("d7","droits",1,"Vous voyez une personne inconsciente et pouvez appeler les secours sans danger. Que devez-vous faire ?",["Passer votre chemin","Alerter les secours et porter assistance selon vos possibilités","Attendre un policier","Intervenir seulement si vous la connaissez"],1,"Il faut porter assistance sans se mettre soi-même en danger."),
+Q("d8","droits",1,"Sur un réseau social, quelqu'un appelle à la haine contre un groupe en raison de son origine. La liberté d'expression le protège-t-elle automatiquement ?",["Oui","Oui depuis son domicile","Non","Oui si le message est anonyme"],2,"L'appel à la haine peut être sanctionné par la loi."),
+Q("d9","droits",1,"Une personne refuse de louer un logement uniquement à cause de l'origine du candidat. C'est :",["Toujours légal","Une discrimination interdite","Une règle municipale","Un droit absolu du propriétaire"],1,"La discrimination dans l'accès au logement est interdite."),
+Q("d10","droits",1,"Un citoyen est convoqué comme témoin par la justice. Il doit :",["Ignorer toute convocation","Respecter les obligations prévues par la procédure","Demander l'accord de son employeur pour répondre à la justice","Répondre seulement s'il le souhaite"],1,"Les convocations et obligations judiciaires doivent être respectées."),
+Q("d11","droits",1,"Une personne diffuse publiquement des propos racistes. Cela peut-il être sanctionné ?",["Non, jamais","Oui","Seulement en période électorale","Seulement si elle est fonctionnaire"],1,"Les propos racistes peuvent être sanctionnés par la loi."),
 
-  <script src="questions.js"></script>
-  <script src="app.js"></script>
+Q("h1","histoire",0,"En quelle année débute la Révolution française ?",["1789","1792","1815","1848"],0,"La Révolution française débute en 1789."),
+Q("h2","histoire",0,"En 1944, quel droit majeur est reconnu aux femmes françaises ?",["Le droit de vote et d'éligibilité","Le droit de travailler pour la première fois","Le droit d'aller à l'école","Le droit de voyager"],0,"Les femmes obtiennent le droit de vote et d'éligibilité en 1944."),
+Q("h3","histoire",0,"Qui était Molière ?",["Un peintre","Un dramaturge et comédien","Un président","Un scientifique"],1,"Molière est un dramaturge et comédien majeur du XVIIe siècle."),
+Q("h4","histoire",0,"Quel département français partage une frontière terrestre avec le Brésil ?",["La Martinique","La Réunion","La Guyane","La Guadeloupe"],2,"La Guyane partage une frontière avec le Brésil."),
+Q("h5","histoire",0,"Quelle est la plus haute montagne de France ?",["Le Mont Blanc","Le Puy de Dôme","Le Mont Ventoux","Le Canigou"],0,"Le Mont Blanc est le plus haut sommet de France."),
+Q("h6","histoire",0,"La Marseillaise est :",["La devise nationale","L'hymne national","Une fête nationale","Un monument"],1,"La Marseillaise est l'hymne national français."),
+Q("h7","histoire",0,"Le 11 novembre commémore principalement :",["La fin de la Première Guerre mondiale","La Révolution française","La fin de la Seconde Guerre mondiale en Europe","La loi de 1905"],0,"Le 11 novembre commémore l'armistice de 1918."),
+Q("h8","histoire",0,"Le drapeau français est composé des couleurs :",["Bleu, blanc, rouge","Rouge, blanc, vert","Bleu, jaune, rouge","Noir, blanc, rouge"],0,"Le drapeau français est bleu, blanc, rouge."),
+
+Q("v1","vie",0,"Quelle est la durée légale du travail à temps complet en France ?",["30 h","32 h","35 h","40 h"],2,"La durée légale est de 35 heures par semaine."),
+Q("v2","vie",0,"À quoi sert principalement la carte Vitale ?",["Prouver la nationalité","Faciliter la prise en charge des soins par l'Assurance maladie","Obtenir une mutuelle gratuite","Voter"],1,"La carte Vitale facilite la prise en charge et le remboursement des soins."),
+Q("v3","vie",0,"Peut-on fumer dans la salle d'attente fermée d'un hôpital ?",["Oui","Oui après 20 h","Non","Oui avec l'accord d'un médecin"],2,"Il est interdit de fumer dans les lieux collectifs fermés concernés par l'interdiction."),
+Q("v4","vie",0,"L'instruction est obligatoire pour les enfants résidant en France :",["Seulement s'ils sont français","Selon les règles d'âge prévues par la loi, quelle que soit leur nationalité","Seulement à Paris","Uniquement dans le public"],1,"L'obligation d'instruction s'applique aux enfants résidant en France selon les âges légaux.")
+];
+
+const lessons=[
+["Principes & valeurs","Devise, symboles, égalité, liberté, fraternité et laïcité. Retenir surtout la neutralité de l'État et la différence entre agents publics et usagers."],
+["Institutions","Président, Premier ministre, Gouvernement, Parlement, élections et collectivités territoriales."],
+["Droits & devoirs","Libertés fondamentales, non-discrimination, justice, devoirs civiques et assistance à personne en danger."],
+["Histoire, géographie & culture","1789, 1905, 1944, symboles nationaux, grandes dates, géographie et figures culturelles."],
+["Vie en France","Travail, santé, école, règles de vie quotidienne et services publics."]
+];
+
+const defaultState=()=>({attempts:{},sessions:[],view:"home"});
+let st=JSON.parse(localStorage.getItem("civique-v1")||"null")||defaultState(), quiz=null, timer=null;
+const app=document.getElementById("app"), pct=(a,b)=>b?Math.round(a/b*100):0;
+function save(){localStorage.setItem("civique-v1",JSON.stringify(st))}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function mark(q,ok){let x=st.attempts[q.id]||{right:0,wrong:0};ok?x.right++:x.wrong++;st.attempts[q.id]=x;save()}
+function stats(){let r=0,w=0;Object.values(st.attempts).forEach(x=>{r+=x.right;w+=x.wrong});return{r,w,t:r+w,p:pct(r,r+w)}}
+function setView(v){st.view=v;save();document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));({home,learn,practice,errors,progress}[v]||home)()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
+
+function home(){
+ let s=stats(),errs=Object.values(st.attempts).filter(x=>x.wrong).length,mocks=st.sessions.filter(x=>x.type==="mock");
+ app.innerHTML=`<section class="hero"><div class="ey">PRÉPARATION PERSONNELLE</div><h2>Prêt pour une courte session ?</h2><p>Travaille par petites séries, révise tes erreurs, puis passe des examens blancs de 40 questions en 45 minutes.</p></section>
+ <div class="grid two"><div class="card"><h3>Précision globale</h3><div class="big">${s.t?s.p+"%":"—"}</div><p>${s.t} réponses enregistrées</p></div><div class="card"><h3>Journal d'erreurs</h3><div class="big">${errs}</div><p>questions à consolider</p></div></div>
+ <div class="grid two"><div class="card"><h3>Diagnostic</h3><p>25 questions avant apprentissage.</p><div class="row"><button class="btn pri" id="diag">Commencer</button></div></div>
+ <div class="card"><h3>Examen blanc</h3><p>40 questions · 45 min · seuil 32/40.</p><div class="row"><button class="btn pri" id="mock">Lancer</button></div></div></div>
+ <div class="card" style="margin-top:14px"><h3>Examens blancs</h3><p>${mocks.length?mocks.slice(-3).map(m=>m.score+"/40").join(" · "):"Aucun pour l'instant."}</p></div>`;
+ document.getElementById("diag").onclick=()=>start("diagnostic",shuffle(qs).slice(0,25));
+ document.getElementById("mock").onclick=()=>start("mock",qs);
+}
+function learn(){app.innerHTML=`<h2>Leçons courtes</h2><div class="grid">${lessons.map((x,i)=>`<div class="card"><span class="tag">Leçon ${i+1}</span><h3>${x[0]}</h3><p>${x[1]}</p></div>`).join("")}</div>`}
+function practice(){app.innerHTML=`<h2>Pratiquer</h2><div class="grid">${Object.entries(C).map(([k,v])=>`<div class="card"><h3>${v}</h3><p>${qs.filter(q=>q.c===k).length} questions disponibles.</p><div class="row"><button class="btn pri" data-cat="${k}">Faire une série</button></div></div>`).join("")}</div>`;document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>start("practice",shuffle(qs.filter(q=>q.c===b.dataset.cat)).slice(0,10)))}
+function errors(){let rows=qs.filter(q=>(st.attempts[q.id]?.wrong||0)>0).sort((a,b)=>(st.attempts[b.id].wrong-st.attempts[a.id].wrong));app.innerHTML=`<h2>Journal d'erreurs</h2>${rows.length?`<div class="grid">${rows.map(q=>`<div class="card err"><span class="tag">${C[q.c]}</span><h3>${q.q}</h3><p><b>À retenir :</b> ${q.e}</p><div class="small">${st.attempts[q.id].wrong} erreur(s) · ${st.attempts[q.id].right} bonne(s)</div></div>`).join("")}</div><div class="row"><button id="rev" class="btn pri">Réviser 10 erreurs</button></div>`:'<div class="card"><p>Aucune erreur enregistrée pour l’instant.</p></div>'}`;if(rows.length)document.getElementById("rev").onclick=()=>start("practice",rows.slice(0,10))}
+function progress(){let s=stats();let cats=Object.keys(C).map(c=>{let r=0,w=0;qs.filter(q=>q.c===c).forEach(q=>{let a=st.attempts[q.id];if(a){r+=a.right;w+=a.wrong}});return[c,r,w]});let mocks=st.sessions.filter(x=>x.type==="mock");app.innerHTML=`<h2>Progrès</h2><div class="grid two"><div class="card"><h3>Réponses</h3><div class="big">${s.t}</div><p>${s.p}% correctes</p></div><div class="card"><h3>Examens blancs</h3><div class="big">${mocks.length}</div><p>${mocks.filter(m=>m.score>=32).length} au-dessus du seuil</p></div></div><div class="card" style="margin-top:14px">${cats.map(([c,r,w])=>`<div class="stat"><span>${C[c]}</span><b>${r+w?pct(r,r+w)+"%":"—"}</b></div>`).join("")}</div>`}
+function start(type,list){quiz={type,list:shuffle(list),i:0,ans:[],remain:type==="mock"?2700:null};if(type==="mock"){timer=setInterval(()=>{quiz.remain--;let t=document.getElementById("tm");if(t)t.textContent=fmt(quiz.remain);if(quiz.remain<=0)finish()},1000)}renderQ()}
+function fmt(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function renderQ(){let q=quiz.list[quiz.i],prev=quiz.ans[quiz.i];app.innerHTML=`<div class="row" style="justify-content:space-between"><button id="quit" class="btn sec">← Quitter</button><span class="timer" id="tm">${quiz.remain!==null?fmt(quiz.remain):quiz.type==="diagnostic"?"Diagnostic":"Entraînement"}</span></div><div class="prog"><div style="width:${(quiz.i+1)/quiz.list.length*100}%"></div></div><div class="card"><span class="tag">${C[q.c]}</span><span class="tag" style="float:right">${quiz.i+1}/${quiz.list.length}</span><div class="q">${q.q}</div><div class="opts">${q.o.map((o,i)=>`<button class="opt ${prev?.sel===i?"sel":""}" data-i="${i}">${"ABCD"[i]}. ${o}</button>`).join("")}</div><div id="fb"></div><div class="row" id="acts"></div></div>`;document.getElementById("quit").onclick=()=>{if(confirm("Quitter cette session ?")){clearInterval(timer);quiz=null;setView("home")}};document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>choose(+b.dataset.i));if(prev&&quiz.type==="practice"&&prev.rev)feedback(q,prev.sel);else if(prev&&quiz.type!=="practice")nextBtn()}
+function choose(i){let q=quiz.list[quiz.i];if(quiz.type==="practice"&&quiz.ans[quiz.i]?.rev)return;quiz.ans[quiz.i]={sel:i,rev:quiz.type==="practice"};if(quiz.type==="practice"){mark(q,i===q.a);feedback(q,i)}else{document.querySelectorAll(".opt").forEach((b,j)=>b.classList.toggle("sel",j===i));nextBtn()}}
+function feedback(q,i){document.querySelectorAll(".opt").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add("good");if(j===i&&i!==q.a)b.classList.add("bad")});let ok=i===q.a;document.getElementById("fb").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Correct":"À revoir"}</b><br>${q.e}</div>`;nextBtn()}
+function nextBtn(){let last=quiz.i===quiz.list.length-1;document.getElementById("acts").innerHTML=`<button id="next" class="btn pri full">${last?"Terminer":"Question suivante"}</button>`;document.getElementById("next").onclick=()=>last?finish():(quiz.i++,renderQ())}
+function finish(){clearInterval(timer);let score=0;quiz.list.forEach((q,i)=>{let a=quiz.ans[i],ok=a&&a.sel===q.a;if(ok)score++;if(quiz.type!=="practice")mark(q,!!ok)});st.sessions.push({type:quiz.type,score,total:quiz.list.length,date:new Date().toISOString()});save();let isMock=quiz.type==="mock",wrong=quiz.list.filter((q,i)=>!quiz.ans[i]||quiz.ans[i].sel!==q.a);app.innerHTML=`<div class="card" style="text-align:center"><div class="ey">${isMock?"EXAMEN BLANC":"SESSION TERMINÉE"}</div><div class="big">${score}/${quiz.list.length}</div><h3>${isMock?(score>=32?"Seuil atteint":"Sous le seuil"):"Résultat enregistré"}</h3><p>${pct(score,quiz.list.length)}% correct.</p></div>${wrong.length?`<h2>À revoir</h2><div class="grid">${wrong.slice(0,8).map(q=>`<div class="card err"><h3>${q.q}</h3><p>${q.e}</p></div>`).join("")}</div>`:""}<div class="row"><button id="back" class="btn pri">Retour</button></div>`;quiz=null;document.getElementById("back").onclick=()=>setView("home")}
+setView(st.view||"home");
+</script>
 </body>
 </html>
