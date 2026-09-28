@@ -61,13 +61,57 @@ function overall(){let r=0,w=0;Object.values(st.attempts).forEach(x=>{r+=x.right
 function dueItems(){return ALL.filter(q=>{let x=ainfo(q);return x.wrong>0&&x.due<=Date.now()}).sort((a,b)=>ainfo(a).due-ainfo(b).due)}
 function wrongItems(){return ALL.filter(q=>ainfo(q).wrong>0).sort((a,b)=>ainfo(b).wrong-ainfo(a).wrong)}
 function uniqueAnswers(pool,answer,n=3){let vals=shuffle([...new Set(pool.map(x=>x.a).filter(Boolean).filter(x=>x!==answer))]);return vals.slice(0,n)}
+const STOP=new Set("quel quelle quels quelles qui que quoi est sont un une le la les de des du au aux en dans sur pour par avec sans à a et ou se ce cet cette ces peut peuvent doit doivent faut signifie appelle quoi comment quand où combien pourquoi notamment principal principale principales être avoir faire".split(" "));
+function words(s){return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(w=>w.length>2&&!STOP.has(w))}
+function sim(a,b){const A=new Set(words(a)),B=new Set(words(b));let inter=0;A.forEach(w=>{if(B.has(w))inter++});return inter/(Math.max(1,new Set([...A,...B]).size))}
+function shape(q){
+ const s=q.q.toLowerCase();
+ if(/combien|quel âge|quelle durée|à partir de quel âge|jusqu'à quel âge/.test(s))return "number";
+ if(/en quelle année|de quand date|quand a eu lieu|quelle date|quel jour/.test(s))return "date";
+ if(/où |dans quelle ville|dans quel musée|dans quelle région|quel fleuve|quelle mer|quelle chaîne|quelle île|quel département|quel pays|quel état/.test(s))return "place";
+ if(/qui |quel président|quel roi|quel peintre|quel compositeur|quel écrivain|quel philosophe|quel homme politique|quelle femme/.test(s))return "person";
+ if(/oui|non/.test(q.a.toLowerCase())||/peut-|faut-|est-il|est-elle|doit-|doivent-|existe-t-il|a-t-il|ont-ils/.test(s))return "yesno";
+ return q.t||"concept";
+}
+const TYPE_FALLBACK={
+ number:["3 ans","5 ans","6 ans","16 ans","18 ans","25 ans","35 heures","101","577"],
+ date:["1789","1848","1905","1944","1945","1958","1992","2002","9 mai","9 décembre","14 juillet","11 novembre"],
+ place:["Paris","Lyon","Marseille","Strasbourg","Bruxelles","Francfort","La Guyane","La Réunion","La Corse","La Manche","La Seine","Les Pyrénées","Les Alpes"],
+ person:["Le Président de la République","Le Premier ministre","Le maire","Le préfet","Les députés","Les sénateurs","Marianne","Charles de Gaulle","Louis XVI","Claude Monet"],
+ yesno:["Oui, sans condition","Non, jamais","Oui, uniquement dans certains cas prévus par la loi","Non, sauf autorisation spéciale"]
+};
+function plausibleDistractors(q,n=3){
+ const targetShape=shape(q);
+ let pool=window.CIVIQUE_KNOWLEDGE.filter(x=>x.id!==q.id && x.a!==q.a);
+ pool=pool.map(x=>({x,score:
+   (x.c===q.c?1.5:0)+
+   (x.t===q.t?1.3:0)+
+   (shape(x)===targetShape?1.6:0)+
+   sim(q.q,x.q)*5
+ })).sort((a,b)=>b.score-a.score);
+ let vals=[];
+ for(const item of pool){
+   if(item.score<1.4)break;
+   const a=item.x.a;
+   if(a!==q.a&&!vals.includes(a))vals.push(a);
+   if(vals.length>=n)break;
+ }
+ const fb=TYPE_FALLBACK[targetShape]||[];
+ for(const a of shuffle(fb)){
+   if(a!==q.a&&!vals.includes(a))vals.push(a);
+   if(vals.length>=n)break;
+ }
+ if(vals.length<n){
+   for(const a of uniqueAnswers(window.CIVIQUE_KNOWLEDGE.filter(x=>x.c===q.c),q.a,n)){
+     if(!vals.includes(a))vals.push(a);
+     if(vals.length>=n)break;
+   }
+ }
+ return vals.slice(0,n);
+}
 function optionsFor(q){
  if(q.choices)return shuffle([...q.choices]);
- let pool=window.CIVIQUE_KNOWLEDGE.filter(x=>x.t===q.t&&x.id!==q.id);
- let d=uniqueAnswers(pool,q.a,3);
- if(d.length<3)d=[...d,...uniqueAnswers(window.CIVIQUE_KNOWLEDGE.filter(x=>x.c===q.c&&x.id!==q.id),q.a,3-d.length)];
- if(d.length<3)d=[...d,...uniqueAnswers(window.CIVIQUE_KNOWLEDGE.filter(x=>x.id!==q.id),q.a,3-d.length)];
- return shuffle([q.a,...d.slice(0,3)]);
+ return shuffle([q.a,...plausibleDistractors(q,3)]);
 }
 function mockSet(){
  const avoid=st.lastMockIds||[];
