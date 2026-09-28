@@ -10,8 +10,9 @@ window.CIVIQUE_META = {
 
 const K = [];
 const S = [];
-const k=(c,t,q,a,n="")=>K.push({id:"k"+(K.length+1),c,t,q,a,n,kind:"knowledge"});
-const s=(c,q,a,choices,n="")=>S.push({id:"s"+(S.length+1),c,t:"custom",q,a,choices,n,kind:"situation"});
+let bankMode = "official";
+const k=(c,t,q,a,n="")=>K.push({id:"k"+(K.length+1),c,t,q,a,n,kind:"knowledge",source:bankMode});
+const s=(c,q,a,choices,n="")=>S.push({id:"s"+(S.length+1),c,t:"custom",q,a,choices,n,kind:"situation",source:"simulation"});
 
 // PRINCIPES ET VALEURS — official-bank coverage, paraphrased
 k("principes","lyrics","Après « Allons enfants de la Patrie », quelle suite appartient à la Marseillaise ?","Le jour de gloire est arrivé","Il s'agit du début de l'hymne national.");
@@ -269,7 +270,16 @@ k("vie","concept","Un enfant en situation de handicap a-t-il droit à la scolari
 k("vie","number","Quelle est la durée normale du congé de paternité et d'accueil de l'enfant pour une naissance simple ?","25 jours calendaires","Depuis 2021, le congé de paternité et d'accueil de l'enfant est de 25 jours calendaires, auxquels s'ajoutent les 3 jours de congé de naissance.");
 k("vie","concept","Les châtiments corporels à l'égard des enfants sont-ils admis ?","Non, l'autorité parentale s'exerce sans violences physiques ou psychologiques");
 
+// Official questions that are visually present in the current Ministry PDF but may be missed by text extraction.
+k("principes","concept","Que signifie le mot « fraternité » dans la devise française ?","La solidarité, l'entraide et le lien entre les membres de la communauté nationale");
+k("principes","concept","Selon la Constitution, la France est une République…","Indivisible, laïque, démocratique et sociale");
+k("principes","concept","Selon le principe de laïcité, que signifie la neutralité de l'État ?","L'État ne favorise ni ne discrimine aucune religion et ses agents restent neutres");
+k("histoire","sea","Quelle mer se situe entre la France et l'Angleterre ?","La Manche");
+k("histoire","mountains","Quelle chaîne de montagnes est située entre la France et l'Espagne ?","Les Pyrénées");
+k("histoire","river","Quel fleuve traverse Paris ?","La Seine");
+
 // Additional current-official-syllabus variants for breadth
+bankMode = "variant";
 k("principes","language","Quelle est la langue de la République selon la Constitution ?","Le français");
 k("principes","symbol","Quelles sont les couleurs du drapeau national ?","Bleu, blanc, rouge");
 k("principes","concept","Que signifie la fraternité dans la devise ?","La solidarité et l'entraide entre les personnes");
